@@ -1,0 +1,149 @@
+/* line 4, /Users/john/Projects/attentive/lib/assets/stylesheets/attentive.css.scss */
+body, html {
+  margin: 0;
+  padding: 0;
+}
+
+/* line 9, /Users/john/Projects/attentive/lib/assets/stylesheets/attentive.css.scss */
+.timer {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  opacity: 0.5;
+  font-size: 30px;
+  font-family: Courier New, monospace;
+}
+/* line 19, /Users/john/Projects/attentive/lib/assets/stylesheets/attentive.css.scss */
+.timer.hide {
+  display: none;
+}
+/* line 23, /Users/john/Projects/attentive/lib/assets/stylesheets/attentive.css.scss */
+.timer.running {
+  color: #c00;
+}
+
+/* line 28, /Users/john/Projects/attentive/lib/assets/stylesheets/attentive.css.scss */
+#slides-container {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  *zoom: 1;
+}
+
+/* line 36, /Users/john/Projects/attentive/lib/assets/stylesheets/attentive.css.scss */
+body.loading .slide {
+  opacity: 0 !important;
+}
+
+/* line 41, /Users/john/Projects/attentive/lib/assets/stylesheets/attentive.css.scss */
+#slides {
+  position: absolute;
+  top: 0;
+  height: 100%;
+}
+/* line 46, /Users/john/Projects/attentive/lib/assets/stylesheets/attentive.css.scss */
+#slides .slide {
+  display: inline;
+  float: left;
+  position: relative;
+  height: 100%;
+}
+/* line 51, /Users/john/Projects/attentive/lib/assets/stylesheets/attentive.css.scss */
+#slides .slide .content {
+  text-align: center;
+  position: absolute;
+  left: 5%;
+  width: 90%;
+}
+/* line 58, /Users/john/Projects/attentive/lib/assets/stylesheets/attentive.css.scss */
+#slides .slide .content * {
+  line-height: 105%;
+}
+/* line 62, /Users/john/Projects/attentive/lib/assets/stylesheets/attentive.css.scss */
+#slides .slide .content h1, #slides .slide .content h2, #slides .slide .content h3 {
+  margin: 0;
+}
+/* line 66, /Users/john/Projects/attentive/lib/assets/stylesheets/attentive.css.scss */
+#slides .slide .content h1 {
+  font-size: 6.5em;
+}
+/* line 70, /Users/john/Projects/attentive/lib/assets/stylesheets/attentive.css.scss */
+#slides .slide .content h2 {
+  font-size: 4em;
+}
+/* line 74, /Users/john/Projects/attentive/lib/assets/stylesheets/attentive.css.scss */
+#slides .slide .content h3 {
+  font-size: 2em;
+}
+/* line 78, /Users/john/Projects/attentive/lib/assets/stylesheets/attentive.css.scss */
+#slides .slide .content div.highlight {
+  text-align: left;
+  padding: 1em;
+  font-size: 160%;
+}
+/* line 85, /Users/john/Projects/attentive/lib/assets/stylesheets/attentive.css.scss */
+#slides .slide .content div.highlight pre {
+  margin: 0;
+}
+/* line 92, /Users/john/Projects/attentive/lib/assets/stylesheets/attentive.css.scss */
+#slides .slide.style-smaller div.highlight {
+  font-size: 125%;
+}
+/* line 98, /Users/john/Projects/attentive/lib/assets/stylesheets/attentive.css.scss */
+#slides .slide.style-larger div.highlight {
+  font-size: 200%;
+}
+/* line 104, /Users/john/Projects/attentive/lib/assets/stylesheets/attentive.css.scss */
+#slides .slide.style-even-larger div.highlight {
+  font-size: 250%;
+}
+
+/* line 5, /Users/john/Projects/tea-time-beginners-talk-on-jasmine/assets/stylesheets/application.css.scss */
+body, html {
+  background-color: #d4d2bf;
+}
+
+/* line 9, /Users/john/Projects/tea-time-beginners-talk-on-jasmine/assets/stylesheets/application.css.scss */
+h1, h2, h3 {
+  font-family: Acme, sans-serif;
+}
+
+/* line 13, /Users/john/Projects/tea-time-beginners-talk-on-jasmine/assets/stylesheets/application.css.scss */
+div.highlight {
+  background-color: #c0bda0;
+}
+
+/* line 18, /Users/john/Projects/tea-time-beginners-talk-on-jasmine/assets/stylesheets/application.css.scss */
+.style-image-80-percent img {
+  height: 80%;
+}
+
+/* line 23, /Users/john/Projects/tea-time-beginners-talk-on-jasmine/assets/stylesheets/application.css.scss */
+#slides {
+  -webkit-transition-duration: 0.3s;
+  -moz-transition-duration: 0.3s;
+  -ms-transition-duration: 0.3s;
+  -o-transition-duration: 0.3s;
+  transition-duration: 0.3s;
+}
+
+/* line 27, /Users/john/Projects/tea-time-beginners-talk-on-jasmine/assets/stylesheets/application.css.scss */
+#intro {
+  width: 90%;
+  overflow: hidden;
+  *zoom: 1;
+  position: relative;
+}
+/* line 33, /Users/john/Projects/tea-time-beginners-talk-on-jasmine/assets/stylesheets/application.css.scss */
+#intro img {
+  width: 30%;
+  display: inline;
+  float: left;
+}
+/* line 38, /Users/john/Projects/tea-time-beginners-talk-on-jasmine/assets/stylesheets/application.css.scss */
+#intro div {
+  width: 70%;
+  display: inline;
+  float: right;
+}
