@@ -1,0 +1,56 @@
+!SLIDE
+# Matchers
+
+!SLIDE even-larger
+``` ruby
+cat.meow.should == "meow"
+cat.should be_a_kind_of(Cat)
+cat.should_not be_hungry #=> cat.hungry?.should == false
+```
+
+!SLIDE even-larger
+``` coffeescript
+expect(cat.meow()).toEqual("meow")
+expect(cat.prototype).toEqual(Cat.prototype)
+expect(cat.isHungry()).not.toBeTruthy()
+```
+
+!SLIDE even-larger
+# Lots of built in matchers
+
+``` coffeescript
+toEqual(object)
+toBeTruthy()
+toBeFalsy()
+toBeGreaterThan()
+toBeLessThan()
+toBeUndefined()
+toContain()
+toMatch()
+```
+
+!SLIDE even-larger
+``` coffeescript
+expect(cat.isHungry()).not.toBeTruthy()
+```
+
+!SLIDE
+# Create your own matchers!
+
+!SLIDE even-larger
+``` coffeescript
+MyMatchers =
+  toBeHungry: ->
+    return @actual.isHungry() == true
+
+beforeEach ->
+  this.addMatchers(MyMatchers)
+
+describe 'Cat', ->
+  beforeEach ->
+    @cat = new Cat()
+
+  it 'should not be hungry', ->
+    expect(@cat).not.toBeHungry()
+```
+

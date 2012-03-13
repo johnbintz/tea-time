@@ -1,0 +1,113 @@
+!SLIDE
+# What if the cat meows differently based on certain states?
+
+!SLIDE image-80-percent
+<img src="assets/hungry-cat.jpg" />
+
+!SLIDE image-80-percent
+<img src="assets/cat-carrier.jpg" />
+
+!SLIDE
+# Nested `describe`
+
+!SLIDE larger
+``` coffeescript
+describe 'Cat', ->
+  describe '#meow', ->
+    describe 'hungry', ->
+      # Cat#meow expectation for when the cat is hungry
+
+    describe 'going to the vet', ->
+      # Cat#meow expectation for when the cat knows it's vet time
+```
+
+!SLIDE larger
+``` coffeescript
+describe 'Cat', ->
+  describe '#meow', ->
+    describe 'hungry', ->
+      it 'should be a mournful meow', ->
+        cat = new Cat()
+        cat.state = -> Cat.HUNGRY   # ...just like cat.stubs(:state)
+
+        expect(cat.meow()).toEqual("meeeyaow")
+
+    describe 'going to the vet', ->
+      it 'should be an evil meow', ->
+        cat = new Cat()
+        cat.state = -> Cat.VET_PSYCHIC   # ...just like the one above
+
+        expect(cat.meow()).toEqual("raowwww")
+```
+
+!SLIDE image-80-percent
+<img src="assets/wet-cat.jpg" />
+
+!SLIDE even-larger
+``` coffeescript
+cat = new Cat()
+```
+
+!SLIDE even-larger
+``` ruby
+before do
+  @cat = Cat.new
+end
+
+it 'should be a mournful meow' do
+  @cat.stubs(:state).returns(Cat::HUNGRY)
+
+  @cat.meow.should == "meeyaow"
+end
+```
+
+!SLIDE even-larger
+``` ruby
+before -> it -> after
+```
+
+!SLIDE even-larger
+``` ruby
+before do
+  @instance_variable = "yes"
+end
+
+it "should be in the same context as the before block" do
+  @instance_variable.should == "yes"
+end
+```
+
+!SLIDE even-larger
+``` coffeescript
+beforeEach -> it -> afterEach
+```
+
+!SLIDE even-larger
+``` coffeescript
+beforeEach ->
+  @instanceVariable = "yes"
+
+it "should be in the same context", ->
+  expect(@instanceVariable).toEqual("yes")
+```
+
+!SLIDE larger
+``` coffeescript
+describe 'Cat', ->
+  describe '#meow', ->
+    beforeEach ->
+      @cat = new Cat()
+
+    describe 'hungry', ->
+      it 'should be a mournful meow', ->
+        @cat.state = -> Cat.HUNGRY
+
+        expect(@cat.meow()).toEqual("meeeyaow")
+
+    describe 'going to the vet', ->
+      it 'should be an evil meow', ->
+        @cat.state = -> Cat.VET_PSYCHIC
+
+        expect(@cat.meow()).toEqual("raowwww")
+```
+

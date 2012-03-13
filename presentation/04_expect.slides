@@ -1,0 +1,92 @@
+!SLIDE
+# `expect`
+
+!SLIDE
+# What should we get as an output?
+
+!SLIDE even-larger
+``` coffeescript
+describe 'Cat', ->
+  describe '#meow', ->
+    it 'should meow correctly', ->
+      expect(cat.meow()).toEqual('meow')
+```
+
+!SLIDE
+# Wait, we need a cat.
+
+!SLIDE even-larger
+``` coffeescript
+describe 'Cat', ->
+  describe '#meow', ->
+    it 'should meow correctly', ->
+      cat = new Cat()
+
+      expect(cat.meow()).toEqual('meow')
+```
+
+!SLIDE even-larger
+``` coffeescript
+# code-under-test
+
+class this.Cat
+  meow: ->
+```
+
+!SLIDE even-larger
+``` javascript
+// safety wrapper to prevent global pollution
+(function() {
+  // ...but we want to pollute the Cat class
+  this.Cat = (function() {
+    function Cat() {}
+    Cat.prototype.meow = function() {};
+    return Cat;
+  })();
+})(this) // this is window in a browser
+```
+
+!SLIDE
+# Run it!
+
+!SLIDE even-larger
+```
+1 spec, 1 failure
+
+Expected undefined to equal 'meow'.
+```
+
+!SLIDE
+# Make it meow!
+
+!SLIDE even-larger
+``` coffeescript
+class this.Cat
+  meow: -> "meow"
+```
+
+!SLIDE even-larger
+```
+1 spec, 0 failures
+```
+
+!SLIDE
+# Here's what you should have meow...
+
+!SLIDE even-larger
+``` coffeescript
+# spec
+
+describe 'Cat', ->
+  describe '#meow', ->
+    it 'should meow correctly', ->
+      expect(cat.meow()).toEqual('meow')
+```
+
+!SLIDE even-larger
+``` coffeescript
+# code-under-test
+
+class this.Cat
+  meow: -> "meow"
+```

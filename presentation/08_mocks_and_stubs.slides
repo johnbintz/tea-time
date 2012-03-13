@@ -1,0 +1,368 @@
+!SLIDE even-larger
+``` coffeescript
+describe
+it
+expect
+toSomething()
+beforeEach
+afterEach
+```
+
+!SLIDE
+# Jasmine == unit testing
+
+!SLIDE image-80-percent
+<img src="assets/synergize.jpg" />
+
+!SLIDE
+# No, this isn't a talk about integration testing
+
+!SLIDE
+# Testing the *right* things in your JavaScript unit tests
+
+!SLIDE image-80-percent
+<img src="assets/spaghetti.jpg" />
+
+!SLIDE
+# John behavior #2
+## Mock, stub, and spy on anything that should be handled in an integration test
+
+``` coffeescript
+describe 'John', ->
+  describe 'spec definitions', ->
+    it 'should keep unit tests as focused as possible', ->
+```
+
+!SLIDE image-80-percent
+<img src="assets/beer-cat.jpg" />
+
+!SLIDE even-larger
+``` gherkin
+Feature: Cat Behaviors
+  Scenario: Hungry cats meow a particular way
+    Given I have a cat
+      And the cat is hungry
+    When the cat meows
+    Then the meow should sound like "meeyaow"
+```
+
+!SLIDE even-larger
+``` coffeescript
+class this.Cat
+  @FOOD_THRESHOLD = 20
+  @HUNGRY = 'hungry'
+
+  constructor: (@foodLevel = 30) ->
+
+  meow: ->
+    switch this.state()
+      when Cat.HUNGRY
+        "meeyaow"
+
+  state: ->
+    if @foodLevel < Cat.FOOD_THRESHOLD
+      Cat.HUNGRY
+```
+
+!SLIDE even-larger
+``` coffeescript
+describe 'Cat', ->
+  describe '#meow', ->
+    context 'hungry', ->
+      it 'should be a mournful meow', ->
+        cat = new Cat()
+        cat.foodLevel = 15
+
+        expect(cat.meow()).toEqual("meeeyaow")
+```
+
+!SLIDE
+# A perfectly cromulent test
+
+!SLIDE larger
+``` coffeescript
+class this.Cat
+  meow: ->
+    switch this.state() # <= dependent code executed
+      when Cat.HUNGRY
+        "meeyaow"
+```
+
+!SLIDE
+# Why make your unit tests fragile?
+
+!SLIDE larger
+``` coffeescript
+cat.foodLevel = 15 # do we care about food level in this test?
+                   # all we care about is that the cat is hungry
+```
+
+!SLIDE larger
+``` coffeescript
+describe 'Cat', ->
+  describe '#meow', ->
+    describe 'hungry', ->
+      it 'should be a mournful meow', ->
+        cat = new Cat()
+        cat.state = -> Cat.HUNGRY # <= we don't care how state works,
+                                  #    we just want a hungry cat
+
+        expect(cat.meow()).toEqual("meeeyaow")
+```
+
+!SLIDE
+# Instance Stubs in JavaScript
+## Just replace the method on the instance
+
+``` coffeescript
+class this.Cat
+  state: ->
+    # cat codes
+
+cat = new Cat()
+cat.state = -> "whatever"
+```
+
+!SLIDE
+# Stubs just return something when called
+
+!SLIDE
+# Mocks expect to be called
+
+!SLIDE
+# Test fails if all mocks are not called
+
+!SLIDE
+# Jasmine blurs the line a little
+
+!SLIDE image-80-percent
+<img src="assets/spy-cat.jpg" />
+
+!SLIDE
+# Spies work like mocks, but with additional abilities
+
+!SLIDE image-80-percent
+<img src="assets/flying-cat.jpg" />
+
+!SLIDE even-larger
+``` coffeescript
+class this.Cat
+  vocalProcessor: (speech) =>
+    if this.isAirborne()
+      this.modifyForAirborne(speech)
+    else
+      this.modifyForGround(speech)
+```
+
+!SLIDE larger
+``` coffeescript
+describe 'Cat#vocalProcessor', ->
+  speech = "speech"
+
+  beforeEach ->
+    @cat = new Cat()
+
+  context 'airborne', ->
+    beforeEach ->
+      spyOn(@cat, 'modifyForAirborne')
+      @cat.isAirborne = -> true
+
+    it 'should be modified for flight', ->
+      @cat.vocalProcessor(speech)
+      expect(@cat.modifyForAirborne).toHaveBeenCalledWith(speech)
+```
+
+!SLIDE even-larger
+# `spyOn` replaces a method on an instance with a spy method
+
+``` coffeescript
+spyOn(@cat, 'modifyForAirborne')
+```
+
+!SLIDE
+# Can return a value, run code, run the original code, or just wait to be called
+
+!SLIDE
+# Two basic ways to make sure a spy is called
+
+!SLIDE even-larger
+# `toHaveBeenCalledWith()`
+## Called least once with the given parameters
+
+``` coffeescript
+expect(@cat.modifyForAirborne).toHaveBeenCalledWith(speech)
+```
+
+!SLIDE even-larger
+# `toHaveBeenCalled()`
+# Just called, no parameter check
+
+``` coffeescript
+expect(@cat.modifyForAirborne).toHaveBeenCalled()
+```
+
+!SLIDE even-larger
+# Instance Mocks/Spies in JavaScript
+## Use `spyOn`/`toHaveBeenCalled` matchers
+
+``` coffeescript
+class this.Cat
+  state: ->
+    # cat codes
+
+cat = new Cat()
+spyOn(cat, 'state')
+expect(cat.state).toHaveBeenCalled()
+```
+
+!SLIDE
+# `spyOn` works great with class-level stubs and mocks, too
+
+!SLIDE even-larger
+``` coffeescript
+class this.Cat
+  @generateFurColor: (base) ->
+    # magicks to make a fur color given a base
+
+  regrowFur: (damagedHairs) ->
+    for follicle in damagedHairs
+      follicle.regrow(Cat.generateFurColor(this.baseColor))
+```
+
+!SLIDE even-larger
+``` coffeescript
+Cat.generateFurColor = ->
+  "whoops i nuked this method for every other test"
+```
+
+!SLIDE larger
+``` coffeescript
+describe 'Cat#regrowFur', ->
+  color = 'color'
+
+  beforeEach ->
+    @cat = new Cat()
+    @follicle =
+      regrow: ->
+
+    @follicles = [ follicle ]
+
+    spyOn(Cat, 'generateFurColor').andReturn(color)
+    #           ^^^ original is replaced when done
+    spyOn(@follicle, 'regrow')
+
+  it 'should regrow', ->
+    @cat.regrowFur(@follicles)
+
+    expect(@follicle.regrow).toHaveBeenCalledWith(color)
+```
+
+!SLIDE even-larger
+# Class Stubs in JavaScript
+## Use `spyOn` to generate stubs so that the original code is replaced after the test
+
+``` coffeescript
+class this.Cat
+  @injectPsychicPowers: (cat) ->
+    # cat codes
+
+spyOn(Cat, 'injectPsychicPowers').andReturn(psychicCat)
+```
+
+!SLIDE
+# John behavior #3
+## If you have too many mocks/stubs/contexts, your code is too complex
+
+``` coffeescript
+describe 'John', ->
+  describe 'spec definitions', ->
+    it 'should obey the Law of Demeter as much as possible', ->
+    it 'should not smell too funny', ->
+```
+
+!SLIDE smaller
+``` coffeescript
+describe 'Cat#fetch', ->
+  object = null
+
+  context 'a mouse', ->
+    beforeEach ->
+      object = new Mouse()
+
+    context 'fast mouse', ->
+      it 'should wear down the mouse', ->
+        # who
+
+    context 'slow mouse', ->
+      it 'should deliver a present to you', ->
+        # cares
+
+  context 'a ball', ->
+    beforeEach ->
+      object = new Ball()
+
+    context 'ball is bouncing', ->
+      it 'should cause the cat to leap', ->
+        # this
+
+    context 'ball is rolling', ->
+      it 'should cause the cat to slide on the floor', ->
+        # test
+
+  context 'a red dot', ->
+    laser = null
+
+    beforeEach ->
+      laser = new Laser()
+
+    context 'laser out of batteries', ->
+      it 'should not activate', ->
+        # is
+
+    context 'laser functioning', ->
+      it 'should activate, driving the cat insane', ->
+        # huge and unmaintainable and silly
+```
+
+!SLIDE
+# Sometimes you just need a big blob of unit tests
+
+!SLIDE even-larger
+``` coffeescript
+# fast and focused!
+
+describe 'Cat#respondsTo', ->
+  beforeEach ->
+    @cat = new Cat()
+
+  context 'successes', ->
+    it 'should respond', ->
+      for request in [ 'kitty kitty', 'pookums', 'hisshead' ]
+        expect(@cat.respondsTo(request)).toBeTruthy()
+```
+
+!SLIDE even-larger
+``` gherkin
+# slow and synergistic!
+
+Scenario Outline: Successful responsiveness
+  Given I have a cat
+  When I call it with "<request>"
+  Then the cat should respond
+
+  Examples:
+    | request     |
+    | kitty kitty |
+    | pookums     |
+    | hisshead    |
+```
+
+!SLIDE image-80-percent
+<img src="assets/balancing-cat.jpg" />
+
+!SLIDE
+# Find what works best for you and stick with it
+
+!SLIDE
+## ...until you get sick of it, of course...
+

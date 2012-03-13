@@ -1,0 +1,33 @@
+!SLIDE
+# Using it in your project
+
+!SLIDE
+# [github.com/pivotal/jasmine-gem](http://github.com/pivotal/jasmine-gem)
+
+!SLIDE
+# Starts a Rack server for running Jasmine against your code
+
+!SLIDE
+# Really easy to plug into an existing Rails project
+
+!SLIDE
+# Want to make that run fast?
+
+!SLIDE
+# Use PhantomJS or `jasmine-headless-webkit`
+
+!SLIDE
+# Fast code running in a real browser
+
+!SLIDE
+# Evergreen
+
+!SLIDE
+# Jasminerice
+
+!SLIDE
+# Node.js
+
+!SLIDE
+# Pick your favorite!
+

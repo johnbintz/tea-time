@@ -1,0 +1,129 @@
+!SLIDE
+# A little semantics game...
+
+!SLIDE even-larger
+``` coffeescript
+describe 'Cat', ->
+  describe '#meow', ->
+    describe 'hungry', ->
+      # cat codes
+
+    describe 'going to the vet', ->
+      # moar cat codes
+```
+
+!SLIDE
+# This works, but it can be clearer
+
+!SLIDE
+``` ruby
+describe Cat do
+  describe '#meow' do
+    describe 'hungry' do
+      # cat codes
+    end
+
+    describe 'going to the vet' do
+      # moar cat codes
+    end
+  end
+end
+```
+
+!SLIDE
+# `context`
+
+!SLIDE
+# Description of different states for a test
+
+!SLIDE even-larger
+``` ruby
+alias :context :describe
+```
+
+!SLIDE larger
+``` ruby
+describe Cat do
+  let(:cat) { described_class.new }
+
+  # save describe for things or behaviors...
+  describe '#meow' do
+    subject { cat.meow }
+
+    # use context to describe states
+    context 'hungry' do
+      # cat codes
+    end
+
+    context 'going to the vet' do
+      # moar cat codes
+    end
+  end
+end
+```
+
+!SLIDE
+# Jasmine doesn't have `context`
+
+!SLIDE
+# However...
+
+!SLIDE even-larger
+``` coffeescript
+this.context = this.describe
+```
+
+!SLIDE even-larger
+``` coffeescript
+this.context = this.describe
+
+describe 'Cat', ->
+  describe '#meow', ->
+    context 'hungry', ->
+      # cat codes
+
+    context 'going to the vet', ->
+      # moar cat codes
+```
+
+!SLIDE larger
+``` coffeescript
+this.context = this.describe
+
+describe 'Cat', ->
+  describe '#meow', ->
+    beforeEach ->
+      @cat = new Cat()
+
+    context 'hungry', ->
+      it 'should be a mournful meow', ->
+        @cat.state = -> Cat.HUNGRY
+
+        expect(@cat.meow()).toEqual("meeeyaow")
+
+    context 'going to the vet', ->
+      it 'should be an evil meow', ->
+        @cat.state = -> Cat.VET_PSYCHIC
+
+        expect(@cat.meow()).toEqual("raowwww")
+```
+
+!SLIDE even-larger
+``` coffeescript
+class this.Cat
+  @HUNGRY = 'hungry'
+  @VET_PSYCHIC = 'vet psychic'
+
+  meow: ->
+    switch this.state()
+      when Cat.HUNGRY
+        "meeeyaow"
+      when Cat.VET_PSYCHIC
+        "raowwww"
+```
+
+!SLIDE even-larger
+```
+2 spec, 0 failures
+```
+

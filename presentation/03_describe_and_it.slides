@@ -1,0 +1,61 @@
+!SLIDE
+# `describe`
+
+!SLIDE
+# Describes a thing or a behavior of a thing
+
+!SLIDE
+# Let's describe...
+
+!SLIDE image-80-percent
+<img src="assets/relevant-cat.jpg" />
+
+!SLIDE even-larger
+``` coffeescript
+describe 'Cat', ->
+  # cat behavior descriptions go here
+```
+
+!SLIDE
+# Something that cats do...
+
+!SLIDE image-80-percent
+<img src="assets/cat-meow.jpg" />
+
+!SLIDE even-larger
+``` coffeescript
+describe 'Cat', ->
+  describe '#meow', ->
+    # description of the meow behavior goes here
+```
+
+!SLIDE
+# John behavior #1
+## Use Ruby-style indicators for instance- and class-level methods, even in Jasmine
+
+``` coffeescript
+describe 'John', ->
+  describe 'spec definitions', ->
+    it 'should look like you did it in RSpec', ->
+```
+
+!SLIDE
+# Describe how we expect a cat to meow
+
+!SLIDE
+# `it`
+
+!SLIDE even-larger
+``` coffeescript
+describe 'Cat', ->
+  describe '#meow', ->
+    it 'should meow correctly', ->
+      # expectation of a cat meowing
+```
+
+!SLIDE
+# We have the description...
+
+!SLIDE
+# Now let's add the expectations!
+

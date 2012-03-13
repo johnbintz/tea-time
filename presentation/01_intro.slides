@@ -1,0 +1,137 @@
+!SLIDE
+<div id="intro">
+  <img src="assets/john-drinking-tea.png" />
+  <div>
+    <h1>Tea Time</h1>
+    <h2>A Beginner's Guide to JavaScript Testing using Jasmine</h2>
+    <h3>By John Bintz</h3>
+  </div>
+</div>
+
+!SLIDE
+# Automated testing is important
+
+!SLIDE image-80-percent
+<img src="assets/checklist.png" />
+
+!SLIDE
+# Fortunately, we're beyond that nowadays
+
+!SLIDE larger
+``` ruby
+require 'spec_helper'
+
+describe MyCoolWebsite do
+  let(:website) { described_class.new }
+
+  describe '#cool_method' do
+    subject { website.cool_method }
+
+    let(:oh_yeah) { [ double_cool ] }
+    let(:double_cool) { 'double cool' }
+
+    before do
+      website.stubs(:whoa_cool).returns(oh_yeah)
+    end
+
+    it { should == double_cool }
+  end
+end
+```
+
+!SLIDE
+# But there's more to web apps than Ruby nowadays...
+
+!SLIDE even-larger
+``` html
+<img src="normal.gif"
+   onmouseover="this.src='hover.gif'"
+   onmouseout="this.src='normal.gif'" />
+```
+
+!SLIDE larger
+``` html
+<script type="text/javascript">
+function showMyCoolTitle(title, length) {
+  if (length == null) { length = 0; }
+
+  if (length < title.length) {
+    document.title = title.substr(0, length);
+    length++;
+
+    setTimeout(function() { showMyCoolTitle(title, length); }, 75);
+  }
+}
+
+window.onload = function() { showMyCoolTitle("My cool website! Whoaaaaa!"); }
+</script>
+```
+
+!SLIDE
+# jQuery
+
+!SLIDE
+# Backbone
+
+!SLIDE
+# Sprockets and RequireJS
+
+!SLIDE
+# Automated testing is important
+
+!SLIDE larger
+``` ruby
+require 'spec_helper'
+
+describe MyCoolWebsite do
+  let(:website) { described_class.new }
+
+  describe '#cool_method' do
+    subject { website.cool_method }
+
+    let(:oh_yeah) { [ double_cool ] }
+    let(:double_cool) { 'double cool' }
+
+    before do
+      website.stubs(:whoa_cool).returns(oh_yeah)
+    end
+
+    it { should == double_cool }
+  end
+end
+```
+
+!SLIDE larger
+``` coffeescript
+describe 'MyCoolWebsiteView', ->
+  website = null
+
+  beforeEach ->
+    website = new MyCoolWebsiteView()
+
+  describe '#coolMethod', ->
+    doubleCool = 'double cool'
+    ohYeah = [ doubleCool ]
+
+    beforeEach ->
+      website.whoaCool = -> ohYeah
+
+    it 'should be double cool', ->
+      expect(website.coolMethod()).toEqual(doubleCool)
+```
+
+!SLIDE
+# Jasmine
+
+!SLIDE
+# BDD unit testing framework for JavaScript
+
+!SLIDE
+# Platform independent
+
+!SLIDE
+# Easily extended
+
+!SLIDE
+# Very easy to learn!
+

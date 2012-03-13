@@ -1,0 +1,43 @@
+@import 'attentive';
+
+$color: #d4d2bf;
+
+body, html {
+  background-color: $color;
+}
+
+h1, h2, h3 {
+  font-family: Acme, sans-serif;
+}
+
+div.highlight {
+  background-color: adjust-lightness($color, -10);
+}
+
+.style-image-80-percent {
+  img {
+    height: 80%;
+  }
+}
+
+#slides {
+  @include transition-duration(0.3s);
+}
+
+#intro {
+  width: 90%;
+
+  @include clearfix;
+  position: relative;
+
+  img {
+    width: 30%;
+    @include float-left;
+  }
+
+  div {
+    width: 70%;
+    @include float-right;
+  }
+}
+

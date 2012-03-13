@@ -1,0 +1,205 @@
+!SLIDE
+# Some miscellaneous hints and tips
+
+!SLIDE
+# Testing jQuery
+
+!SLIDE
+# Mocking and stubbing `$.fn` calls
+
+!SLIDE larger
+``` coffeescript
+this.containerWaiter = ->
+  $('#container').addClass('wait').append('<div class="waiting" />')
+```
+
+!SLIDE even-larger
+``` coffeescript
+$.fn.makeWait = ->
+  $(this).addClass('wait').append('<div class="waiting" />')
+  this
+```
+
+!SLIDE even-larger
+``` coffeescript
+this.containerWaiter = ->
+  $('#container').makeWait()
+```
+
+!SLIDE
+# `jquery-jasmine`
+
+!SLIDE even-larger
+``` coffeescript
+describe 'container', ->
+  beforeEach ->
+    setFixtures('<div id="container" />')
+
+  it 'should make it wait', ->
+    containerWaiter()
+    expect($('#container')).toHaveClass('wait')
+    expect($('#container')).toContain('div.waiting')
+```
+
+!SLIDE image-80-percent
+<img src="assets/wet-cat.jpg" />
+
+!SLIDE image-80-percent
+<img src="assets/spaghetti.jpg" />
+
+!SLIDE even-larger
+``` coffeescript
+describe '$.fn.makeWait', ->
+  it 'should make wait', ->
+    $div = $('<div />')
+    $div.makeWait()
+
+    expect($div).toHaveClass('wait')
+    expect($div).toContain('div.waiting')
+```
+
+!SLIDE even-larger
+``` coffeescript
+describe 'container', ->
+  beforeEach ->
+    setFixtures('<div id="container" />')
+    spyOn($.fn, 'makeWait')
+
+  it 'should make it wait', ->
+    containerWaiter()
+    expect($.fn.makeWait).toHaveBeenCalled()
+```
+
+!SLIDE
+# No longer testing jQuery, just testing for our code
+
+!SLIDE
+# Animations and other time-dependent things
+
+!SLIDE even-larger
+``` coffeescript
+class Cat
+  constructor: ->
+    @mood = "happy"
+
+  pet: ->
+    setTimeout(
+      -> @mood = "angry"
+      , 500
+    )
+```
+
+!SLIDE
+# Do you really need to test the `setTimeout`?
+
+!SLIDE even-larger
+``` coffeescript
+class Cat
+  constructor: ->
+    @mood = "happy"
+
+  pet: -> setTimeout(@makeAngry, 500)
+
+  makeAngry: => @mood = "angry"
+```
+
+!SLIDE
+# Use Jasmine's `waitsFor` and `runs`
+
+!SLIDE larger
+``` coffeescript
+describe 'cat moods', ->
+  it 'should change moods', ->
+    cat = new Cat()
+
+    # we want to know the cat's current mood
+    currentMood = cat.mood
+
+    #  start petting the cat
+    runs -> cat.pet()
+
+    # wait one second for the cat's mood to change
+    waitsFor(
+      ->
+        cat.mood != currentMood
+      , "Cat changed its mood",
+      1000
+    )
+
+    # expect the inevitable
+    runs ->
+      expect(cat.mood).toEqual('angry')
+```
+
+!SLIDE
+# Underscore.js mixins
+## and other prototype mixin-style extensions
+
+!SLIDE even-larger
+``` coffeescript
+CatLike =
+  catify: (name) ->
+    "meow meow #{name}"
+
+# mix in to the Underscore object
+_.mixin(CatLike)
+
+# use it
+_.catify("john") # => "meow meow john"
+```
+
+!SLIDE even-larger
+``` coffeescript
+CatLike =
+  catify: (name) -> "meow meow #{name}"
+
+class Cat
+  hiss: -> "hiss"
+
+# like Ruby include, add code to instances
+for method, code of CatLike
+  Cat.prototype[method] = code
+
+cat = new Cat()
+cat.catify("john") # => "meow meow #{name}"
+```
+
+!SLIDE even-larger
+``` coffeescript
+CatLike =
+  catify: (name) -> "meow meow #{name}"
+
+class Cat
+  hiss: -> "hiss"
+
+# like Ruby extend, add code to class
+for method, code of CatLike
+  Cat[method] = code
+
+Cat.catify("john") # => "meow meow john"
+```
+
+!SLIDE even-larger
+``` coffeescript
+describe '_.catify', ->
+  it 'should catify', ->
+    expect(_.catify("hiss")).toEqual("meow meow hiss")
+```
+
+!SLIDE
+# Eliminate the Underscore.js dependency
+
+!SLIDE even-larger
+``` coffeescript
+describe 'CatLike', ->
+  beforeEach ->
+    @helper = {}
+
+    for method, code of CatLike
+      @helper[method] = code
+
+  describe '#catify', ->
+    it 'should catify', ->
+      expect(@helper.catify("hiss")).toEqual("meow meow hiss")
+```
+
