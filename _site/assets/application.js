@@ -1,316 +1,307 @@
-(function() {
-  var Attentive,
-    __bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; };
+var Attentive,
+  __bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; };
 
-  if (!(typeof Attentive !== "undefined" && Attentive !== null)) Attentive = {};
+if (!(typeof Attentive !== "undefined" && Attentive !== null)) Attentive = {};
 
-  Attentive.Presentation = (function() {
+Attentive.Presentation = (function() {
 
-    Presentation.setup = function(identifier) {
-      var starter;
-      starter = function() {
-        return setTimeout(function() {
-          return (new Attentive.Presentation(identifier)).start();
-        }, 250);
-      };
-      return window.addEventListener('DOMContentLoaded', starter, false);
+  Presentation.setup = function(identifier) {
+    var starter;
+    starter = function() {
+      return setTimeout(function() {
+        return (new Attentive.Presentation(identifier)).start();
+      }, 250);
     };
+    return window.addEventListener('DOMContentLoaded', starter, false);
+  };
 
-    function Presentation(identifier) {
-      this.identifier = identifier;
-      this.align = __bind(this.align, this);
-      this.getCurrentSlide = __bind(this.getCurrentSlide, this);
-      this.calculate = __bind(this.calculate, this);
-      this.advanceTo = __bind(this.advanceTo, this);
-      this.isFile = __bind(this.isFile, this);
-      this.advance = __bind(this.advance, this);
-      this.handleKeyDown = __bind(this.handleKeyDown, this);
-      this.handleClick = __bind(this.handleClick, this);
-      this.handlePopState = __bind(this.handlePopState, this);
-      this.length = this.allSlides().length;
-      this.priorSlide = null;
-      this.initialRender = true;
-      this.timer = new Attentive.PresentationTimer();
-      this.timer.hide();
-      this.currentWindowHeight = null;
-      document.querySelector('body').appendChild(this.timer.el);
+  function Presentation(identifier) {
+    this.identifier = identifier;
+    this.align = __bind(this.align, this);
+    this.getCurrentSlide = __bind(this.getCurrentSlide, this);
+    this.calculate = __bind(this.calculate, this);
+    this.advanceTo = __bind(this.advanceTo, this);
+    this.isFile = __bind(this.isFile, this);
+    this.advance = __bind(this.advance, this);
+    this.handleKeyDown = __bind(this.handleKeyDown, this);
+    this.handleClick = __bind(this.handleClick, this);
+    this.handlePopState = __bind(this.handlePopState, this);
+    this.length = this.allSlides().length;
+    this.priorSlide = null;
+    this.initialRender = true;
+    this.timer = new Attentive.PresentationTimer();
+    this.timer.hide();
+    this.currentWindowHeight = null;
+    document.querySelector('body').appendChild(this.timer.el);
+  }
+
+  Presentation.prototype.bodyClassList = function() {
+    return this._bodyClassList || (this._bodyClassList = document.querySelector('body').classList);
+  };
+
+  Presentation.prototype.allSlides = function() {
+    return this._allSlides || (this._allSlides = Attentive.Slide.fromList(this.slidesViewer().querySelectorAll('.slide')));
+  };
+
+  Presentation.prototype.slidesViewer = function() {
+    return this._slidesViewer || (this._slidesViewer = document.querySelector(this.identifier));
+  };
+
+  Presentation.prototype.start = function() {
+    var imageWait,
+      _this = this;
+    if (!this.isFile()) {
+      window.addEventListener('popstate', this.handlePopState, false);
     }
-
-    Presentation.prototype.bodyClassList = function() {
-      return this._bodyClassList || (this._bodyClassList = document.querySelector('body').classList);
-    };
-
-    Presentation.prototype.allSlides = function() {
-      return this._allSlides || (this._allSlides = Attentive.Slide.fromList(this.slidesViewer().querySelectorAll('.slide')));
-    };
-
-    Presentation.prototype.slidesViewer = function() {
-      return this._slidesViewer || (this._slidesViewer = document.querySelector(this.identifier));
-    };
-
-    Presentation.prototype.start = function() {
-      var imageWait,
-        _this = this;
-      if (!this.isFile()) {
-        window.addEventListener('popstate', this.handlePopState, false);
+    this.timer.render();
+    document.addEventListener('click', this.handleClick, false);
+    document.addEventListener('keydown', this.handleKeyDown, false);
+    window.addEventListener('resize', _.throttle(this.calculate, 500), false);
+    imageWait = null;
+    imageWait = function() {
+      var img, slide, wait, _i, _j, _len, _len2, _ref, _ref2;
+      wait = false;
+      _ref = _this.allSlides();
+      for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+        slide = _ref[_i];
+        _ref2 = slide.dom.getElementsByTagName('img');
+        for (_j = 0, _len2 = _ref2.length; _j < _len2; _j++) {
+          img = _ref2[_j];
+          if (!img.complete) wait = true;
+        }
       }
-      this.timer.render();
-      document.addEventListener('click', this.handleClick, false);
-      document.addEventListener('keydown', this.handleKeyDown, false);
-      window.addEventListener('resize', _.throttle(this.calculate, 500), false);
-      imageWait = null;
-      imageWait = function() {
-        var img, slide, wait, _i, _j, _len, _len2, _ref, _ref2;
-        wait = false;
-        _ref = _this.allSlides();
+      if (wait) {
+        return setTimeout(imageWait, 100);
+      } else {
+        return _this.advanceTo(_this.slideFromLocation());
+      }
+    };
+    return imageWait();
+  };
+
+  Presentation.prototype.slideFromLocation = function() {
+    var value;
+    value = this.isFile() ? location.hash : location.pathname;
+    return Number(value.substr(1));
+  };
+
+  Presentation.prototype.handlePopState = function(e) {
+    return this.advanceTo(e.state ? e.state.index : this.slideFromLocation());
+  };
+
+  Presentation.prototype.handleClick = function(e) {
+    if (e.target.tagName !== 'A') return this.advance();
+  };
+
+  Presentation.prototype.handleKeyDown = function(e) {
+    switch (e.keyCode) {
+      case 72:
+        return this.advanceTo(0);
+      case 37:
+        return this.advance(-1);
+      case 39:
+      case 32:
+        return this.advance();
+      case 220:
+        return this.timer.reset();
+      case 84:
+        if (e.shiftKey) {
+          return this.timer.toggleVisible();
+        } else {
+          if (this.timer.isVisible()) return this.timer.toggle();
+        }
+    }
+  };
+
+  Presentation.prototype.advance = function(offset) {
+    if (offset == null) offset = 1;
+    return this.advanceTo(Math.max(Math.min(this.currentSlide + offset, this.length - 1), 0));
+  };
+
+  Presentation.prototype.isFile = function() {
+    return location.href.slice(0, 4) === 'file';
+  };
+
+  Presentation.prototype.advanceTo = function(index) {
+    this.priorSlide = this.currentSlide;
+    this.currentSlide = index || 0;
+    this.calculate();
+    if (this.isFile()) {
+      return location.hash = this.currentSlide;
+    } else {
+      return history.pushState({
+        index: this.currentSlide
+      }, '', this.currentSlide);
+    }
+  };
+
+  Presentation.prototype.calculate = function() {
+    var recalculate, slide, times, _i, _len, _ref;
+    if (this.currentWindowHeight !== window.innerHeight) {
+      recalculate = true;
+      times = 3;
+      while (recalculate && times > 0) {
+        recalculate = false;
+        times -= 1;
+        _ref = this.allSlides();
         for (_i = 0, _len = _ref.length; _i < _len; _i++) {
           slide = _ref[_i];
-          _ref2 = slide.dom.getElementsByTagName('img');
-          for (_j = 0, _len2 = _ref2.length; _j < _len2; _j++) {
-            img = _ref2[_j];
-            if (!img.complete) wait = true;
-          }
+          if (slide.recalculate()) recalculate = true;
         }
-        if (wait) {
-          return setTimeout(imageWait, 100);
-        } else {
-          return _this.advanceTo(_this.slideFromLocation());
-        }
-      };
-      return imageWait();
-    };
-
-    Presentation.prototype.slideFromLocation = function() {
-      var value;
-      value = this.isFile() ? location.hash : location.pathname;
-      return Number(value.substr(1));
-    };
-
-    Presentation.prototype.handlePopState = function(e) {
-      return this.advanceTo(e.state ? e.state.index : this.slideFromLocation());
-    };
-
-    Presentation.prototype.handleClick = function(e) {
-      if (e.target.tagName !== 'A') return this.advance();
-    };
-
-    Presentation.prototype.handleKeyDown = function(e) {
-      switch (e.keyCode) {
-        case 72:
-          return this.advanceTo(0);
-        case 37:
-          return this.advance(-1);
-        case 39:
-        case 32:
-          return this.advance();
-        case 220:
-          return this.timer.reset();
-        case 84:
-          if (e.shiftKey) {
-            return this.timer.toggleVisible();
-          } else {
-            if (this.timer.isVisible()) return this.timer.toggle();
-          }
       }
-    };
-
-    Presentation.prototype.advance = function(offset) {
-      if (offset == null) offset = 1;
-      return this.advanceTo(Math.max(Math.min(this.currentSlide + offset, this.length - 1), 0));
-    };
-
-    Presentation.prototype.isFile = function() {
-      return location.href.slice(0, 4) === 'file';
-    };
-
-    Presentation.prototype.advanceTo = function(index) {
-      this.priorSlide = this.currentSlide;
-      this.currentSlide = index || 0;
-      this.calculate();
-      if (this.isFile()) {
-        return location.hash = this.currentSlide;
-      } else {
-        return history.pushState({
-          index: this.currentSlide
-        }, '', this.currentSlide);
-      }
-    };
-
-    Presentation.prototype.calculate = function() {
-      var recalculate, slide, times, _i, _len, _ref;
-      if (this.currentWindowHeight !== window.innerHeight) {
-        recalculate = true;
-        times = 3;
-        while (recalculate && times > 0) {
-          recalculate = false;
-          times -= 1;
-          _ref = this.allSlides();
-          for (_i = 0, _len = _ref.length; _i < _len; _i++) {
-            slide = _ref[_i];
-            if (slide.recalculate()) recalculate = true;
-          }
-        }
-        this.currentWindowHeight = window.innerHeight;
-        this.slidesViewer().style['width'] = "" + (window.innerWidth * this.allSlides().length) + "px";
-      }
-      return this.align();
-    };
-
-    Presentation.prototype.getCurrentSlide = function() {
-      return this.allSlides()[this.currentSlide];
-    };
-
-    Presentation.prototype.align = function() {
-      if (this.priorSlide) this.allSlides()[this.priorSlide].deactivate();
-      this.getCurrentSlide().activate();
-      this.slidesViewer().style['left'] = "-" + (this.currentSlide * window.innerWidth) + "px";
-      if (this.initialRender) {
-        this.bodyClassList().remove('loading');
-        this.initialRender = false;
-        this.currentWindowHeight = null;
-        return this.calculate();
-      }
-    };
-
-    return Presentation;
-
-  })();
-
-}).call(this);
-(function() {
-  var Attentive,
-    __bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; };
-
-  if (!(typeof Attentive !== "undefined" && Attentive !== null)) Attentive = {};
-
-  Attentive.Slide = (function() {
-
-    Slide.fromList = function(list) {
-      var result, slide;
-      return result = (function() {
-        var _i, _len, _results;
-        _results = [];
-        for (_i = 0, _len = list.length; _i < _len; _i++) {
-          slide = list[_i];
-          _results.push(new Attentive.Slide(slide));
-        }
-        return _results;
-      })();
-    };
-
-    function Slide(dom) {
-      this.dom = dom;
-      this.deactivate = __bind(this.deactivate, this);
-      this.activate = __bind(this.activate, this);
-      this.recalculate = __bind(this.recalculate, this);
+      this.currentWindowHeight = window.innerHeight;
+      this.slidesViewer().style['width'] = "" + (window.innerWidth * this.allSlides().length) + "px";
     }
+    return this.align();
+  };
 
-    Slide.prototype.recalculate = function() {
-      var currentMarginTop, height;
-      this.dom.style['width'] = "" + window.innerWidth + "px";
-      currentMarginTop = Number(this.dom.style['marginTop'].replace(/[^\d\.]/g, ''));
-      height = (window.innerHeight - this.dom.querySelector('.content').clientHeight) / 2;
-      if (height !== currentMarginTop) {
-        this.dom.style['marginTop'] = "" + height + "px";
-        return true;
-      }
-    };
+  Presentation.prototype.getCurrentSlide = function() {
+    return this.allSlides()[this.currentSlide];
+  };
 
-    Slide.prototype.activate = function() {
-      return this.dom.classList.add('active');
-    };
-
-    Slide.prototype.deactivate = function() {
-      return this.dom.classList.remove('active');
-    };
-
-    return Slide;
-
-  })();
-
-}).call(this);
-(function() {
-  var Attentive;
-
-  if (!(typeof Attentive !== "undefined" && Attentive !== null)) Attentive = {};
-
-  Attentive.PresentationTimer = (function() {
-
-    function PresentationTimer() {
-      this.time = 0;
-      this.el = null;
+  Presentation.prototype.align = function() {
+    if (this.priorSlide) this.allSlides()[this.priorSlide].deactivate();
+    this.getCurrentSlide().activate();
+    this.slidesViewer().style['left'] = "-" + (this.currentSlide * window.innerWidth) + "px";
+    if (this.initialRender) {
+      this.bodyClassList().remove('loading');
+      this.initialRender = false;
+      this.currentWindowHeight = null;
+      return this.calculate();
     }
+  };
 
-    PresentationTimer.prototype.render = function() {
-      return this.ensureEl().innerHTML = this.formattedTime();
-    };
+  return Presentation;
 
-    PresentationTimer.prototype.ensureEl = function() {
-      if (!this.el) {
-        this.el = document.createElement('div');
-        this.el.classList.add('timer');
+})();
+var Attentive,
+  __bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; };
+
+if (!(typeof Attentive !== "undefined" && Attentive !== null)) Attentive = {};
+
+Attentive.Slide = (function() {
+
+  Slide.fromList = function(list) {
+    var result, slide;
+    return result = (function() {
+      var _i, _len, _results;
+      _results = [];
+      for (_i = 0, _len = list.length; _i < _len; _i++) {
+        slide = list[_i];
+        _results.push(new Attentive.Slide(slide));
       }
-      return this.el;
-    };
+      return _results;
+    })();
+  };
 
-    PresentationTimer.prototype.start = function() {
-      this._runner = this.runner();
-      return this.ensureEl().classList.add('running');
-    };
+  function Slide(dom) {
+    this.dom = dom;
+    this.deactivate = __bind(this.deactivate, this);
+    this.activate = __bind(this.activate, this);
+    this.recalculate = __bind(this.recalculate, this);
+  }
 
-    PresentationTimer.prototype.runner = function() {
-      var _this = this;
-      return setTimeout(function() {
-        _this.render();
-        _this.time += 1;
-        if (_this._runner != null) return _this.runner();
-      }, 1000);
-    };
+  Slide.prototype.recalculate = function() {
+    var currentMarginTop, height;
+    this.dom.style['width'] = "" + window.innerWidth + "px";
+    currentMarginTop = Number(this.dom.style['marginTop'].replace(/[^\d\.]/g, ''));
+    height = (window.innerHeight - this.dom.querySelector('.content').clientHeight) / 2;
+    if (height !== currentMarginTop) {
+      this.dom.style['marginTop'] = "" + height + "px";
+      return true;
+    }
+  };
 
-    PresentationTimer.prototype.stop = function() {
-      clearTimeout(this._runner);
-      this.ensureEl().classList.remove('running');
-      return this._runner = null;
-    };
+  Slide.prototype.activate = function() {
+    return this.dom.classList.add('active');
+  };
 
-    PresentationTimer.prototype.reset = function() {
-      this.stop();
-      this.time = 0;
-      return this.render();
-    };
+  Slide.prototype.deactivate = function() {
+    return this.dom.classList.remove('active');
+  };
 
-    PresentationTimer.prototype.toggle = function() {
-      if (this._runner != null) {
-        return this.stop();
-      } else {
-        return this.start();
-      }
-    };
+  return Slide;
 
-    PresentationTimer.prototype.toggleVisible = function() {
-      return this.ensureEl().classList.toggle('hide');
-    };
+})();
+var Attentive;
 
-    PresentationTimer.prototype.isVisible = function() {
-      return !this.ensureEl().classList.contains('hide');
-    };
+if (!(typeof Attentive !== "undefined" && Attentive !== null)) Attentive = {};
 
-    PresentationTimer.prototype.hide = function() {
-      return this.ensureEl().classList.add('hide');
-    };
+Attentive.PresentationTimer = (function() {
 
-    PresentationTimer.prototype.formattedTime = function() {
-      var minute, second;
-      minute = ("00" + (Math.floor(this.time / 60))).slice(-2);
-      second = ("00" + (this.time % 60)).slice(-2);
-      return "" + minute + ":" + second;
-    };
+  function PresentationTimer() {
+    this.time = 0;
+    this.el = null;
+  }
 
-    return PresentationTimer;
+  PresentationTimer.prototype.render = function() {
+    return this.ensureEl().innerHTML = this.formattedTime();
+  };
 
-  })();
+  PresentationTimer.prototype.ensureEl = function() {
+    if (!this.el) {
+      this.el = document.createElement('div');
+      this.el.classList.add('timer');
+    }
+    return this.el;
+  };
 
-}).call(this);
+  PresentationTimer.prototype.start = function() {
+    this._runner = this.runner();
+    return this.ensureEl().classList.add('running');
+  };
+
+  PresentationTimer.prototype.runner = function() {
+    var _this = this;
+    return setTimeout(function() {
+      _this.render();
+      _this.time += 1;
+      if (_this._runner != null) return _this.runner();
+    }, 1000);
+  };
+
+  PresentationTimer.prototype.stop = function() {
+    clearTimeout(this._runner);
+    this.ensureEl().classList.remove('running');
+    return this._runner = null;
+  };
+
+  PresentationTimer.prototype.reset = function() {
+    this.stop();
+    this.time = 0;
+    return this.render();
+  };
+
+  PresentationTimer.prototype.toggle = function() {
+    if (this._runner != null) {
+      return this.stop();
+    } else {
+      return this.start();
+    }
+  };
+
+  PresentationTimer.prototype.toggleVisible = function() {
+    return this.ensureEl().classList.toggle('hide');
+  };
+
+  PresentationTimer.prototype.isVisible = function() {
+    return !this.ensureEl().classList.contains('hide');
+  };
+
+  PresentationTimer.prototype.hide = function() {
+    return this.ensureEl().classList.add('hide');
+  };
+
+  PresentationTimer.prototype.formattedTime = function() {
+    var minute, second;
+    minute = ("00" + (Math.floor(this.time / 60))).slice(-2);
+    second = ("00" + (this.time % 60)).slice(-2);
+    return "" + minute + ":" + second;
+  };
+
+  return PresentationTimer;
+
+})();
 //     Underscore.js 1.3.1
 //     (c) 2009-2012 Jeremy Ashkenas, DocumentCloud Inc.
 //     Underscore is freely distributable under the MIT license.
@@ -1310,13 +1301,7 @@
   };
 
 }).call(this);
-(function() {
 
 
 
-}).call(this);
-(function() {
-
-  Attentive.Presentation.setup('#slides');
-
-}).call(this);
+Attentive.Presentation.setup('#slides');
