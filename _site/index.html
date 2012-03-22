@@ -133,12 +133,12 @@
 
 
 
-</div></div><div class="slide style-larger"><div class="content">
+</div></div><div class="slide"><div class="content">
 <div class="highlight"><pre><span class="nt">&lt;script </span><span class="na">type=</span><span class="s">&quot;text/javascript&quot;</span><span class="nt">&gt;</span>
 <span class="kd">function</span> <span class="nx">showMyCoolTitle</span><span class="p">(</span><span class="nx">title</span><span class="p">,</span> <span class="nx">length</span><span class="p">)</span> <span class="p">{</span>
   <span class="k">if</span> <span class="p">(</span><span class="nx">length</span> <span class="o">==</span> <span class="kc">null</span><span class="p">)</span> <span class="p">{</span> <span class="nx">length</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="p">}</span>
 
-  <span class="k">if</span> <span class="p">(</span><span class="nx">length</span> <span class="o">&lt;</span> <span class="nx">title</span><span class="p">.</span><span class="nx">length</span><span class="p">)</span> <span class="p">{</span>
+  <span class="k">if</span> <span class="p">(</span><span class="nx">length</span> <span class="o">&lt;=</span> <span class="nx">title</span><span class="p">.</span><span class="nx">length</span><span class="p">)</span> <span class="p">{</span>
     <span class="nb">document</span><span class="p">.</span><span class="nx">title</span> <span class="o">=</span> <span class="nx">title</span><span class="p">.</span><span class="nx">substr</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="nx">length</span><span class="p">);</span>
     <span class="nx">length</span><span class="o">++</span><span class="p">;</span>
 
@@ -146,7 +146,9 @@
   <span class="p">}</span>
 <span class="p">}</span>
 
-<span class="nb">window</span><span class="p">.</span><span class="nx">onload</span> <span class="o">=</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span> <span class="nx">showMyCoolTitle</span><span class="p">(</span><span class="s2">&quot;My cool website! Whoaaaaa!&quot;</span><span class="p">);</span> <span class="p">}</span>
+<span class="nb">window</span><span class="p">.</span><span class="nx">onload</span> <span class="o">=</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+  <span class="nx">showMyCoolTitle</span><span class="p">(</span><span class="s2">&quot;My cool website! Whoaaaaa!&quot;</span><span class="p">);</span>
+<span class="p">}</span>
 <span class="nt">&lt;/script&gt;</span>
 </pre>
 </div>
@@ -232,7 +234,7 @@
 <h1>Follow along!</h1>
 
 </div></div><div class="slide"><div class="content">
-<h1><a href="http://johnbintz.github.com/tea-time/">johnbintz.github.com/tea-time</a></h1>
+<h2><a href="http://johnbintz.github.com/tea-time/">johnbintz.github.com/tea-time</a></h2>
 
 </div></div><div class="slide"><div class="content">
 <h1>No need to install anything right now</h1>
@@ -282,7 +284,7 @@
 </div></div><div class="slide style-image-80-percent"><div class="content">
 <p><img src="assets/cat-meow.jpg" /></p>
 
-</div></div><div class="slide style-even-larger"><div class="content">
+</div></div><div class="slide style-larger"><div class="content">
 <div class="highlight"><pre><span class="nx">describe</span> <span class="s">&#39;Cat&#39;</span><span class="p">,</span> <span class="o">-&gt;</span>
   <span class="nx">describe</span> <span class="s">&#39;#meow&#39;</span><span class="p">,</span> <span class="o">-&gt;</span>
     <span class="c1"># description of the meow behavior goes here</span>
@@ -373,7 +375,7 @@
 
 
 
-</div></div><div class="slide style-even-larger"><div class="content">
+</div></div><div class="slide style-larger"><div class="content">
 <div class="highlight"><pre><span class="c1">// safety wrapper to prevent global pollution</span>
 <span class="p">(</span><span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
   <span class="c1">// ...but we want to pollute the Cat class</span>
@@ -463,10 +465,12 @@ Expected undefined to equal &#39;meow&#39;.
 <div class="highlight"><pre><span class="nx">describe</span> <span class="s">&#39;Cat&#39;</span><span class="p">,</span> <span class="o">-&gt;</span>
   <span class="nx">describe</span> <span class="s">&#39;#meow&#39;</span><span class="p">,</span> <span class="o">-&gt;</span>
     <span class="nx">describe</span> <span class="s">&#39;hungry&#39;</span><span class="p">,</span> <span class="o">-&gt;</span>
-      <span class="c1"># Cat#meow expectation for when the cat is hungry</span>
+      <span class="c1"># Cat#meow expectation for when</span>
+      <span class="c1"># the cat is hungry</span>
 
     <span class="nx">describe</span> <span class="s">&#39;going to the vet&#39;</span><span class="p">,</span> <span class="o">-&gt;</span>
-      <span class="c1"># Cat#meow expectation for when the cat knows it&#39;s vet time</span>
+      <span class="c1"># Cat#meow expectation for when</span>
+      <span class="c1"># the cat knows it&#39;s vet time</span>
 </pre>
 </div>
 
@@ -479,14 +483,16 @@ Expected undefined to equal &#39;meow&#39;.
     <span class="nx">describe</span> <span class="s">&#39;hungry&#39;</span><span class="p">,</span> <span class="o">-&gt;</span>
       <span class="nx">it</span> <span class="s">&#39;should be a mournful meow&#39;</span><span class="p">,</span> <span class="o">-&gt;</span>
         <span class="nv">cat = </span><span class="k">new</span> <span class="nx">Cat</span><span class="p">()</span>
-        <span class="nv">cat.state = </span><span class="o">-&gt;</span> <span class="nx">Cat</span><span class="p">.</span><span class="nx">HUNGRY</span>   <span class="c1"># ...just like cat.stubs(:state)</span>
+        <span class="nv">cat.state = </span><span class="o">-&gt;</span> <span class="nx">Cat</span><span class="p">.</span><span class="nx">HUNGRY</span>
+          <span class="c1"># ...just like cat.stubs(:state)</span>
 
         <span class="nx">expect</span><span class="p">(</span><span class="nx">cat</span><span class="p">.</span><span class="nx">meow</span><span class="p">()).</span><span class="nx">toEqual</span><span class="p">(</span><span class="s">&quot;meeeyaow&quot;</span><span class="p">)</span>
 
     <span class="nx">describe</span> <span class="s">&#39;going to the vet&#39;</span><span class="p">,</span> <span class="o">-&gt;</span>
       <span class="nx">it</span> <span class="s">&#39;should be an evil meow&#39;</span><span class="p">,</span> <span class="o">-&gt;</span>
         <span class="nv">cat = </span><span class="k">new</span> <span class="nx">Cat</span><span class="p">()</span>
-        <span class="nv">cat.state = </span><span class="o">-&gt;</span> <span class="nx">Cat</span><span class="p">.</span><span class="nx">VET_PSYCHIC</span>   <span class="c1"># ...just like the one above</span>
+        <span class="nv">cat.state = </span><span class="o">-&gt;</span> <span class="nx">Cat</span><span class="p">.</span><span class="nx">VET_PSYCHIC</span>
+          <span class="c1"># ...just like the one above</span>
 
         <span class="nx">expect</span><span class="p">(</span><span class="nx">cat</span><span class="p">.</span><span class="nx">meow</span><span class="p">()).</span><span class="nx">toEqual</span><span class="p">(</span><span class="s">&quot;raowwww&quot;</span><span class="p">)</span>
 </pre>
@@ -535,7 +541,7 @@ Expected undefined to equal &#39;meow&#39;.
   <span class="vi">@instance_variable</span> <span class="o">=</span> <span class="s2">&quot;yes&quot;</span>
 <span class="k">end</span>
 
-<span class="n">it</span> <span class="s2">&quot;should be in the same context as the before block&quot;</span> <span class="k">do</span>
+<span class="n">it</span> <span class="s2">&quot;is in same context as before block&quot;</span> <span class="k">do</span>
   <span class="vi">@instance_variable</span><span class="o">.</span><span class="n">should</span> <span class="o">==</span> <span class="s2">&quot;yes&quot;</span>
 <span class="k">end</span>
 </pre>
@@ -749,7 +755,8 @@ Expected undefined to equal &#39;meow&#39;.
 </div></div><div class="slide style-even-larger"><div class="content">
 <div class="highlight"><pre><span class="n">cat</span><span class="o">.</span><span class="n">meow</span><span class="o">.</span><span class="n">should</span> <span class="o">==</span> <span class="s2">&quot;meow&quot;</span>
 <span class="n">cat</span><span class="o">.</span><span class="n">should</span> <span class="n">be_a_kind_of</span><span class="p">(</span><span class="no">Cat</span><span class="p">)</span>
-<span class="n">cat</span><span class="o">.</span><span class="n">should_not</span> <span class="n">be_hungry</span> <span class="c1">#=&gt; cat.hungry?.should == false</span>
+<span class="n">cat</span><span class="o">.</span><span class="n">should_not</span> <span class="n">be_hungry</span>
+  <span class="c1"># =&gt; cat.hungry?.should == false</span>
 </pre>
 </div>
 
@@ -859,7 +866,7 @@ Expected undefined to equal &#39;meow&#39;.
 </div></div><div class="slide style-image-80-percent"><div class="content">
 <p><img src="assets/beer-cat.jpg" /></p>
 
-</div></div><div class="slide style-even-larger"><div class="content">
+</div></div><div class="slide style-larger"><div class="content">
 <div class="highlight"><pre><span class="k">Feature:</span><span class="nf"> Cat Behaviors</span>
 <span class="nf">  </span><span class="k">Scenario:</span><span class="nf"> Hungry cats meow a particular way</span>
 <span class="k">    Given </span><span class="nf">I have a cat</span>
@@ -893,7 +900,7 @@ Expected undefined to equal &#39;meow&#39;.
 
 
 
-</div></div><div class="slide style-even-larger"><div class="content">
+</div></div><div class="slide style-larger"><div class="content">
 <div class="highlight"><pre><span class="nx">describe</span> <span class="s">&#39;Cat&#39;</span><span class="p">,</span> <span class="o">-&gt;</span>
   <span class="nx">describe</span> <span class="s">&#39;#meow&#39;</span><span class="p">,</span> <span class="o">-&gt;</span>
     <span class="nx">context</span> <span class="s">&#39;hungry&#39;</span><span class="p">,</span> <span class="o">-&gt;</span>
@@ -927,8 +934,9 @@ Expected undefined to equal &#39;meow&#39;.
 <h1>Why make your unit tests fragile?</h1>
 
 </div></div><div class="slide style-larger"><div class="content">
-<div class="highlight"><pre><span class="nv">cat.foodLevel = </span><span class="mi">15</span> <span class="c1"># do we care about food level in this test?</span>
-                   <span class="c1"># all we care about is that the cat is hungry</span>
+<div class="highlight"><pre><span class="nv">cat.foodLevel = </span><span class="mi">15</span>
+  <span class="c1"># do we care about food level in this test?</span>
+    <span class="c1"># all we care about is that the cat is hungry</span>
 </pre>
 </div>
 
@@ -941,8 +949,9 @@ Expected undefined to equal &#39;meow&#39;.
     <span class="nx">describe</span> <span class="s">&#39;hungry&#39;</span><span class="p">,</span> <span class="o">-&gt;</span>
       <span class="nx">it</span> <span class="s">&#39;should be a mournful meow&#39;</span><span class="p">,</span> <span class="o">-&gt;</span>
         <span class="nv">cat = </span><span class="k">new</span> <span class="nx">Cat</span><span class="p">()</span>
-        <span class="nv">cat.state = </span><span class="o">-&gt;</span> <span class="nx">Cat</span><span class="p">.</span><span class="nx">HUNGRY</span> <span class="c1"># &lt;= we don&#39;t care how state works,</span>
-                                  <span class="c1">#    we just want a hungry cat</span>
+        <span class="nv">cat.state = </span><span class="o">-&gt;</span> <span class="nx">Cat</span><span class="p">.</span><span class="nx">HUNGRY</span>
+          <span class="c1"># ^^^ we don&#39;t care how state works,</span>
+            <span class="c1"># we just want a hungry cat</span>
 
         <span class="nx">expect</span><span class="p">(</span><span class="nx">cat</span><span class="p">.</span><span class="nx">meow</span><span class="p">()).</span><span class="nx">toEqual</span><span class="p">(</span><span class="s">&quot;meeeyaow&quot;</span><span class="p">)</span>
 </pre>
@@ -1002,7 +1011,7 @@ Expected undefined to equal &#39;meow&#39;.
 
 
 
-</div></div><div class="slide style-larger"><div class="content">
+</div></div><div class="slide"><div class="content">
 <div class="highlight"><pre><span class="nx">describe</span> <span class="s">&#39;Cat#vocalProcessor&#39;</span><span class="p">,</span> <span class="o">-&gt;</span>
   <span class="nv">speech = </span><span class="s">&quot;speech&quot;</span>
 
@@ -1039,10 +1048,10 @@ Expected undefined to equal &#39;meow&#39;.
 </div></div><div class="slide"><div class="content">
 <h1>Two basic ways to make sure a spy is called</h1>
 
-</div></div><div class="slide style-even-larger"><div class="content">
-<h1><code>toHaveBeenCalledWith()</code></h1>
+</div></div><div class="slide"><div class="content">
+<h2><code>toHaveBeenCalledWith(args...)</code></h2>
 
-<h2>Called least once with the given parameters</h2>
+<h3>Called least once with the given parameters</h3>
 
 <div class="highlight"><pre><span class="nx">expect</span><span class="p">(</span><span class="nx">@cat</span><span class="p">.</span><span class="nx">modifyForAirborne</span><span class="p">).</span><span class="nx">toHaveBeenCalledWith</span><span class="p">(</span><span class="nx">speech</span><span class="p">)</span>
 </pre>
@@ -1051,10 +1060,10 @@ Expected undefined to equal &#39;meow&#39;.
 
 
 
-</div></div><div class="slide style-even-larger"><div class="content">
-<h1><code>toHaveBeenCalled()</code></h1>
+</div></div><div class="slide"><div class="content">
+<h2><code>toHaveBeenCalled()</code></h2>
 
-<h1>Just called, no parameter check</h1>
+<h3>Just called, no parameter check</h3>
 
 <div class="highlight"><pre><span class="nx">expect</span><span class="p">(</span><span class="nx">@cat</span><span class="p">.</span><span class="nx">modifyForAirborne</span><span class="p">).</span><span class="nx">toHaveBeenCalled</span><span class="p">()</span>
 </pre>
@@ -1063,7 +1072,7 @@ Expected undefined to equal &#39;meow&#39;.
 
 
 
-</div></div><div class="slide style-even-larger"><div class="content">
+</div></div><div class="slide style-larger"><div class="content">
 <h1>Instance Mocks/Spies in JavaScript</h1>
 
 <h2>Use <code>spyOn</code>/<code>toHaveBeenCalled</code> matchers</h2>
@@ -1084,7 +1093,7 @@ Expected undefined to equal &#39;meow&#39;.
 </div></div><div class="slide"><div class="content">
 <h1><code>spyOn</code> works great with class-level stubs and mocks, too</h1>
 
-</div></div><div class="slide style-even-larger"><div class="content">
+</div></div><div class="slide"><div class="content">
 <div class="highlight"><pre><span class="k">class</span> <span class="k">this</span><span class="p">.</span><span class="nx">Cat</span>
   <span class="vi">@generateFurColor: </span><span class="nf">(base) -&gt;</span>
     <span class="c1"># magicks to make a fur color given a base</span>
@@ -1098,7 +1107,7 @@ Expected undefined to equal &#39;meow&#39;.
 
 
 
-</div></div><div class="slide style-even-larger"><div class="content">
+</div></div><div class="slide style-larger"><div class="content">
 <div class="highlight"><pre><span class="nv">Cat.generateFurColor = </span><span class="o">-&gt;</span>
   <span class="s">&quot;whoops i nuked this method for every other test&quot;</span>
 </pre>
@@ -1107,7 +1116,7 @@ Expected undefined to equal &#39;meow&#39;.
 
 
 
-</div></div><div class="slide style-larger"><div class="content">
+</div></div><div class="slide"><div class="content">
 <div class="highlight"><pre><span class="nx">describe</span> <span class="s">&#39;Cat#regrowFur&#39;</span><span class="p">,</span> <span class="o">-&gt;</span>
   <span class="nv">color = </span><span class="s">&#39;color&#39;</span>
 
@@ -1132,7 +1141,7 @@ Expected undefined to equal &#39;meow&#39;.
 
 
 
-</div></div><div class="slide style-even-larger"><div class="content">
+</div></div><div class="slide style-larger"><div class="content">
 <h1>Class Stubs in JavaScript</h1>
 
 <h2>Use <code>spyOn</code> to generate stubs so that the original code is replaced after the test</h2>
@@ -1213,7 +1222,7 @@ Expected undefined to equal &#39;meow&#39;.
 </div></div><div class="slide"><div class="content">
 <h1>Sometimes you just need a big blob of unit tests</h1>
 
-</div></div><div class="slide style-even-larger"><div class="content">
+</div></div><div class="slide"><div class="content">
 <div class="highlight"><pre><span class="c1"># fast and focused!</span>
 
 <span class="nx">describe</span> <span class="s">&#39;Cat#respondsTo&#39;</span><span class="p">,</span> <span class="o">-&gt;</span>
@@ -1230,7 +1239,7 @@ Expected undefined to equal &#39;meow&#39;.
 
 
 
-</div></div><div class="slide style-even-larger"><div class="content">
+</div></div><div class="slide style-larger"><div class="content">
 <div class="highlight"><pre><span class="c"># slow and synergistic!</span><span class="nf"></span>
 
 <span class="k">Scenario Outline:</span><span class="nf"> Successful responsiveness</span>
@@ -1262,7 +1271,7 @@ Expected undefined to equal &#39;meow&#39;.
 <h1>Using it in your project</h1>
 
 </div></div><div class="slide"><div class="content">
-<h1><a href="http://github.com/pivotal/jasmine-gem">github.com/pivotal/jasmine-gem</a></h1>
+<h2><a href="http://github.com/pivotal/jasmine-gem">github.com/pivotal/jasmine-gem</a></h2>
 
 </div></div><div class="slide"><div class="content">
 <h1>Starts a Rack server for running Jasmine against your code</h1>
@@ -1300,7 +1309,7 @@ Expected undefined to equal &#39;meow&#39;.
 </div></div><div class="slide"><div class="content">
 <h1>Mocking and stubbing <code>$.fn</code> calls</h1>
 
-</div></div><div class="slide style-larger"><div class="content">
+</div></div><div class="slide"><div class="content">
 <div class="highlight"><pre><span class="k">this</span><span class="p">.</span><span class="nv">containerWaiter = </span><span class="o">-&gt;</span>
   <span class="nx">$</span><span class="p">(</span><span class="s">&#39;#container&#39;</span><span class="p">).</span><span class="nx">addClass</span><span class="p">(</span><span class="s">&#39;wait&#39;</span><span class="p">).</span><span class="nx">append</span><span class="p">(</span><span class="s">&#39;&lt;div class=&quot;waiting&quot; /&gt;&#39;</span><span class="p">)</span>
 </pre>
@@ -1309,7 +1318,7 @@ Expected undefined to equal &#39;meow&#39;.
 
 
 
-</div></div><div class="slide style-even-larger"><div class="content">
+</div></div><div class="slide"><div class="content">
 <div class="highlight"><pre><span class="nv">$.fn.makeWait = </span><span class="o">-&gt;</span>
   <span class="nx">$</span><span class="p">(</span><span class="k">this</span><span class="p">).</span><span class="nx">addClass</span><span class="p">(</span><span class="s">&#39;wait&#39;</span><span class="p">).</span><span class="nx">append</span><span class="p">(</span><span class="s">&#39;&lt;div class=&quot;waiting&quot; /&gt;&#39;</span><span class="p">)</span>
   <span class="k">this</span>
@@ -1331,7 +1340,7 @@ Expected undefined to equal &#39;meow&#39;.
 </div></div><div class="slide"><div class="content">
 <h1><code>jquery-jasmine</code></h1>
 
-</div></div><div class="slide style-even-larger"><div class="content">
+</div></div><div class="slide style-larger"><div class="content">
 <div class="highlight"><pre><span class="nx">describe</span> <span class="s">&#39;container&#39;</span><span class="p">,</span> <span class="o">-&gt;</span>
   <span class="nx">beforeEach</span> <span class="o">-&gt;</span>
     <span class="nx">setFixtures</span><span class="p">(</span><span class="s">&#39;&lt;div id=&quot;container&quot; /&gt;&#39;</span><span class="p">)</span>
@@ -1472,44 +1481,7 @@ Expected undefined to equal &#39;meow&#39;.
 
 
 
-</div></div><div class="slide style-even-larger"><div class="content">
-<div class="highlight"><pre><span class="nv">CatLike =</span>
-  <span class="nv">catify: </span><span class="nf">(name) -&gt;</span> <span class="s">&quot;meow meow </span><span class="si">#{</span><span class="nx">name</span><span class="si">}</span><span class="s">&quot;</span>
-
-<span class="k">class</span> <span class="nx">Cat</span>
-  <span class="nv">hiss: </span><span class="o">-&gt;</span> <span class="s">&quot;hiss&quot;</span>
-
-<span class="c1"># like Ruby include, add code to instances</span>
-<span class="k">for</span> <span class="nx">method</span><span class="p">,</span> <span class="nx">code</span> <span class="k">of</span> <span class="nx">CatLike</span>
-  <span class="nx">Cat</span><span class="p">.</span><span class="nx">prototype</span><span class="p">[</span><span class="nx">method</span><span class="p">]</span> <span class="o">=</span> <span class="nx">code</span>
-
-<span class="nv">cat = </span><span class="k">new</span> <span class="nx">Cat</span><span class="p">()</span>
-<span class="nx">cat</span><span class="p">.</span><span class="nx">catify</span><span class="p">(</span><span class="s">&quot;john&quot;</span><span class="p">)</span> <span class="c1"># =&gt; &quot;meow meow #{name}&quot;</span>
-</pre>
-</div>
-
-
-
-
-</div></div><div class="slide style-even-larger"><div class="content">
-<div class="highlight"><pre><span class="nv">CatLike =</span>
-  <span class="nv">catify: </span><span class="nf">(name) -&gt;</span> <span class="s">&quot;meow meow </span><span class="si">#{</span><span class="nx">name</span><span class="si">}</span><span class="s">&quot;</span>
-
-<span class="k">class</span> <span class="nx">Cat</span>
-  <span class="nv">hiss: </span><span class="o">-&gt;</span> <span class="s">&quot;hiss&quot;</span>
-
-<span class="c1"># like Ruby extend, add code to class</span>
-<span class="k">for</span> <span class="nx">method</span><span class="p">,</span> <span class="nx">code</span> <span class="k">of</span> <span class="nx">CatLike</span>
-  <span class="nx">Cat</span><span class="p">[</span><span class="nx">method</span><span class="p">]</span> <span class="o">=</span> <span class="nx">code</span>
-
-<span class="nx">Cat</span><span class="p">.</span><span class="nx">catify</span><span class="p">(</span><span class="s">&quot;john&quot;</span><span class="p">)</span> <span class="c1"># =&gt; &quot;meow meow john&quot;</span>
-</pre>
-</div>
-
-
-
-
-</div></div><div class="slide style-even-larger"><div class="content">
+</div></div><div class="slide style-larger"><div class="content">
 <div class="highlight"><pre><span class="nx">describe</span> <span class="s">&#39;_.catify&#39;</span><span class="p">,</span> <span class="o">-&gt;</span>
   <span class="nx">it</span> <span class="s">&#39;should catify&#39;</span><span class="p">,</span> <span class="o">-&gt;</span>
     <span class="nx">expect</span><span class="p">(</span><span class="nx">_</span><span class="p">.</span><span class="nx">catify</span><span class="p">(</span><span class="s">&quot;hiss&quot;</span><span class="p">)).</span><span class="nx">toEqual</span><span class="p">(</span><span class="s">&quot;meow meow hiss&quot;</span><span class="p">)</span>
@@ -1522,7 +1494,7 @@ Expected undefined to equal &#39;meow&#39;.
 </div></div><div class="slide"><div class="content">
 <h1>Eliminate the Underscore.js dependency</h1>
 
-</div></div><div class="slide style-even-larger"><div class="content">
+</div></div><div class="slide"><div class="content">
 <div class="highlight"><pre><span class="nx">describe</span> <span class="s">&#39;CatLike&#39;</span><span class="p">,</span> <span class="o">-&gt;</span>
   <span class="nx">beforeEach</span> <span class="o">-&gt;</span>
     <span class="vi">@helper = </span><span class="p">{}</span>
@@ -1585,10 +1557,10 @@ Expected undefined to equal &#39;meow&#39;.
 
 
 </div></div><div class="slide"><div class="content">
-<h1><a href="http://pivotal.github.com/jasmine/">Jasmine documentation</a></h1>
+<h2><a href="http://pivotal.github.com/jasmine/">Jasmine documentation</a></h2>
 
 </div></div><div class="slide"><div class="content">
-<h1><a href="http://johnbintz.github.com/tea-time/">johnbintz.github.com/tea-time</a></h1>
+<h2><a href="http://johnbintz.github.com/tea-time/">johnbintz.github.com/tea-time</a></h2>
 
 </div></div><div class="slide"><div class="content">
 <h1>Any questions?</h1>
