@@ -240,24 +240,36 @@ Attentive.PresentationTimer = (function() {
 
   PresentationTimer.prototype.ensureEl = function() {
     if (!this.el) {
-      this.el = document.createElement('div');
+      this.el = this._createDiv();
       this.el.classList.add('timer');
     }
     return this.el;
   };
 
+  PresentationTimer.prototype._createDiv = function() {
+    return document.createElement('div');
+  };
+
+  PresentationTimer.prototype.addClass = function(className) {
+    return this.ensureEl().classList.add(className);
+  };
+
   PresentationTimer.prototype.start = function() {
     this._runner = this.runner();
-    return this.ensureEl().classList.add('running');
+    return this.addClass('running');
   };
 
   PresentationTimer.prototype.runner = function() {
     var _this = this;
     return setTimeout(function() {
-      _this.render();
-      _this.time += 1;
-      if (_this._runner != null) return _this.runner();
+      return _this.handleRunner();
     }, 1000);
+  };
+
+  PresentationTimer.prototype.handleRunner = function() {
+    this.render();
+    this.time += 1;
+    if (this._runner != null) return this.runner();
   };
 
   PresentationTimer.prototype.stop = function() {
