@@ -33,7 +33,7 @@ class this.Cat
   meow: ->
 ```
 
-!SLIDE even-larger
+!SLIDE larger
 ``` javascript
 // safety wrapper to prevent global pollution
 (function() {

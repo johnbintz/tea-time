@@ -22,7 +22,7 @@ describe 'Cat', ->
 !SLIDE image-80-percent
 <img src="assets/cat-meow.jpg" />
 
-!SLIDE even-larger
+!SLIDE larger
 ``` coffeescript
 describe 'Cat', ->
   describe '#meow', ->

@@ -2,7 +2,7 @@
 # Using it in your project
 
 !SLIDE
-# [github.com/pivotal/jasmine-gem](http://github.com/pivotal/jasmine-gem)
+## [github.com/pivotal/jasmine-gem](http://github.com/pivotal/jasmine-gem)
 
 !SLIDE
 # Starts a Rack server for running Jasmine against your code

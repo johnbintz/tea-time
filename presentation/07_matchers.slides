@@ -5,7 +5,8 @@
 ``` ruby
 cat.meow.should == "meow"
 cat.should be_a_kind_of(Cat)
-cat.should_not be_hungry #=> cat.hungry?.should == false
+cat.should_not be_hungry
+  # => cat.hungry?.should == false
 ```
 
 !SLIDE even-larger

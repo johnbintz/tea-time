@@ -36,7 +36,7 @@ describe 'John', ->
 !SLIDE image-80-percent
 <img src="assets/beer-cat.jpg" />
 
-!SLIDE even-larger
+!SLIDE larger
 ``` gherkin
 Feature: Cat Behaviors
   Scenario: Hungry cats meow a particular way
@@ -64,7 +64,7 @@ class this.Cat
       Cat.HUNGRY
 ```
 
-!SLIDE even-larger
+!SLIDE larger
 ``` coffeescript
 describe 'Cat', ->
   describe '#meow', ->
@@ -93,8 +93,9 @@ class this.Cat
 
 !SLIDE larger
 ``` coffeescript
-cat.foodLevel = 15 # do we care about food level in this test?
-                   # all we care about is that the cat is hungry
+cat.foodLevel = 15
+  # do we care about food level in this test?
+    # all we care about is that the cat is hungry
 ```
 
 !SLIDE larger
@@ -104,8 +105,9 @@ describe 'Cat', ->
     describe 'hungry', ->
       it 'should be a mournful meow', ->
         cat = new Cat()
-        cat.state = -> Cat.HUNGRY # <= we don't care how state works,
-                                  #    we just want a hungry cat
+        cat.state = -> Cat.HUNGRY
+          # ^^^ we don't care how state works,
+            # we just want a hungry cat
 
         expect(cat.meow()).toEqual("meeeyaow")
 ```
@@ -154,7 +156,7 @@ class this.Cat
       this.modifyForGround(speech)
 ```
 
-!SLIDE larger
+!SLIDE
 ``` coffeescript
 describe 'Cat#vocalProcessor', ->
   speech = "speech"
@@ -185,23 +187,23 @@ spyOn(@cat, 'modifyForAirborne')
 !SLIDE
 # Two basic ways to make sure a spy is called
 
-!SLIDE even-larger
-# `toHaveBeenCalledWith()`
-## Called least once with the given parameters
+!SLIDE
+## `toHaveBeenCalledWith(args...)`
+### Called least once with the given parameters
 
 ``` coffeescript
 expect(@cat.modifyForAirborne).toHaveBeenCalledWith(speech)
 ```
 
-!SLIDE even-larger
-# `toHaveBeenCalled()`
-# Just called, no parameter check
+!SLIDE
+## `toHaveBeenCalled()`
+### Just called, no parameter check
 
 ``` coffeescript
 expect(@cat.modifyForAirborne).toHaveBeenCalled()
 ```
 
-!SLIDE even-larger
+!SLIDE larger
 # Instance Mocks/Spies in JavaScript
 ## Use `spyOn`/`toHaveBeenCalled` matchers
 
@@ -218,7 +220,7 @@ expect(cat.state).toHaveBeenCalled()
 !SLIDE
 # `spyOn` works great with class-level stubs and mocks, too
 
-!SLIDE even-larger
+!SLIDE
 ``` coffeescript
 class this.Cat
   @generateFurColor: (base) ->
@@ -229,13 +231,13 @@ class this.Cat
       follicle.regrow(Cat.generateFurColor(this.baseColor))
 ```
 
-!SLIDE even-larger
+!SLIDE larger
 ``` coffeescript
 Cat.generateFurColor = ->
   "whoops i nuked this method for every other test"
 ```
 
-!SLIDE larger
+!SLIDE
 ``` coffeescript
 describe 'Cat#regrowFur', ->
   color = 'color'
@@ -257,7 +259,7 @@ describe 'Cat#regrowFur', ->
     expect(@follicle.regrow).toHaveBeenCalledWith(color)
 ```
 
-!SLIDE even-larger
+!SLIDE larger
 # Class Stubs in JavaScript
 ## Use `spyOn` to generate stubs so that the original code is replaced after the test
 
@@ -327,7 +329,7 @@ describe 'Cat#fetch', ->
 !SLIDE
 # Sometimes you just need a big blob of unit tests
 
-!SLIDE even-larger
+!SLIDE
 ``` coffeescript
 # fast and focused!
 
@@ -341,7 +343,7 @@ describe 'Cat#respondsTo', ->
         expect(@cat.respondsTo(request)).toBeTruthy()
 ```
 
-!SLIDE even-larger
+!SLIDE larger
 ``` gherkin
 # slow and synergistic!
 

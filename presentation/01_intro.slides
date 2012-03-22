@@ -52,13 +52,13 @@ end
    onmouseout="this.src='normal.gif'" />
 ```
 
-!SLIDE larger
+!SLIDE
 ``` html
 <script type="text/javascript">
 function showMyCoolTitle(title, length) {
   if (length == null) { length = 0; }
 
-  if (length < title.length) {
+  if (length <= title.length) {
     document.title = title.substr(0, length);
     length++;
 
@@ -66,7 +66,9 @@ function showMyCoolTitle(title, length) {
   }
 }
 
-window.onload = function() { showMyCoolTitle("My cool website! Whoaaaaa!"); }
+window.onload = function() {
+  showMyCoolTitle("My cool website! Whoaaaaa!");
+}
 </script>
 ```
 

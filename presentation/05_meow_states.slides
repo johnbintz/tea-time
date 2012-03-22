@@ -15,10 +15,12 @@
 describe 'Cat', ->
   describe '#meow', ->
     describe 'hungry', ->
-      # Cat#meow expectation for when the cat is hungry
+      # Cat#meow expectation for when
+      # the cat is hungry
 
     describe 'going to the vet', ->
-      # Cat#meow expectation for when the cat knows it's vet time
+      # Cat#meow expectation for when
+      # the cat knows it's vet time
 ```
 
 !SLIDE larger
@@ -28,14 +30,16 @@ describe 'Cat', ->
     describe 'hungry', ->
       it 'should be a mournful meow', ->
         cat = new Cat()
-        cat.state = -> Cat.HUNGRY   # ...just like cat.stubs(:state)
+        cat.state = -> Cat.HUNGRY
+          # ...just like cat.stubs(:state)
 
         expect(cat.meow()).toEqual("meeeyaow")
 
     describe 'going to the vet', ->
       it 'should be an evil meow', ->
         cat = new Cat()
-        cat.state = -> Cat.VET_PSYCHIC   # ...just like the one above
+        cat.state = -> Cat.VET_PSYCHIC
+          # ...just like the one above
 
         expect(cat.meow()).toEqual("raowwww")
 ```
@@ -72,7 +76,7 @@ before do
   @instance_variable = "yes"
 end
 
-it "should be in the same context as the before block" do
+it "is in same context as before block" do
   @instance_variable.should == "yes"
 end
 ```

@@ -7,13 +7,13 @@
 !SLIDE
 # Mocking and stubbing `$.fn` calls
 
-!SLIDE larger
+!SLIDE
 ``` coffeescript
 this.containerWaiter = ->
   $('#container').addClass('wait').append('<div class="waiting" />')
 ```
 
-!SLIDE even-larger
+!SLIDE
 ``` coffeescript
 $.fn.makeWait = ->
   $(this).addClass('wait').append('<div class="waiting" />')
@@ -29,7 +29,7 @@ this.containerWaiter = ->
 !SLIDE
 # `jquery-jasmine`
 
-!SLIDE even-larger
+!SLIDE larger
 ``` coffeescript
 describe 'container', ->
   beforeEach ->
@@ -148,38 +148,7 @@ _.mixin(CatLike)
 _.catify("john") # => "meow meow john"
 ```
 
-!SLIDE even-larger
-``` coffeescript
-CatLike =
-  catify: (name) -> "meow meow #{name}"
-
-class Cat
-  hiss: -> "hiss"
-
-# like Ruby include, add code to instances
-for method, code of CatLike
-  Cat.prototype[method] = code
-
-cat = new Cat()
-cat.catify("john") # => "meow meow #{name}"
-```
-
-!SLIDE even-larger
-``` coffeescript
-CatLike =
-  catify: (name) -> "meow meow #{name}"
-
-class Cat
-  hiss: -> "hiss"
-
-# like Ruby extend, add code to class
-for method, code of CatLike
-  Cat[method] = code
-
-Cat.catify("john") # => "meow meow john"
-```
-
-!SLIDE even-larger
+!SLIDE larger
 ``` coffeescript
 describe '_.catify', ->
   it 'should catify', ->
@@ -189,7 +158,7 @@ describe '_.catify', ->
 !SLIDE
 # Eliminate the Underscore.js dependency
 
-!SLIDE even-larger
+!SLIDE
 ``` coffeescript
 describe 'CatLike', ->
   beforeEach ->
