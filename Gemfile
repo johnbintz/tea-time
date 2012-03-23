@@ -6,3 +6,4 @@ gem 'rack-livereload'
 gem 'guard'
 gem 'guard-livereload'
 
+gem 'thin'
