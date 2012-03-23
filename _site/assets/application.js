@@ -21,7 +21,6 @@ Attentive.Presentation = (function() {
     this.getCurrentSlide = __bind(this.getCurrentSlide, this);
     this.calculate = __bind(this.calculate, this);
     this.advanceTo = __bind(this.advanceTo, this);
-    this.isFile = __bind(this.isFile, this);
     this.advance = __bind(this.advance, this);
     this.handleKeyDown = __bind(this.handleKeyDown, this);
     this.handleClick = __bind(this.handleClick, this);
@@ -50,9 +49,6 @@ Attentive.Presentation = (function() {
   Presentation.prototype.start = function() {
     var imageWait,
       _this = this;
-    if (!this.isFile()) {
-      window.addEventListener('popstate', this.handlePopState, false);
-    }
     this.timer.render();
     document.addEventListener('click', this.handleClick, false);
     document.addEventListener('keydown', this.handleKeyDown, false);
@@ -80,13 +76,11 @@ Attentive.Presentation = (function() {
   };
 
   Presentation.prototype.slideFromLocation = function() {
-    var value;
-    value = this.isFile() ? location.hash : location.pathname;
-    return Number(value.substr(1));
+    return Number(location.hash.substr(1));
   };
 
   Presentation.prototype.handlePopState = function(e) {
-    return this.advanceTo(e.state ? e.state.index : this.slideFromLocation());
+    return this.advanceTo(this.slideFromLocation());
   };
 
   Presentation.prototype.handleClick = function(e) {
@@ -98,9 +92,11 @@ Attentive.Presentation = (function() {
       case 72:
         return this.advanceTo(0);
       case 37:
+      case 33:
         return this.advance(-1);
       case 39:
       case 32:
+      case 34:
         return this.advance();
       case 220:
         return this.timer.reset();
@@ -118,21 +114,11 @@ Attentive.Presentation = (function() {
     return this.advanceTo(Math.max(Math.min(this.currentSlide + offset, this.length - 1), 0));
   };
 
-  Presentation.prototype.isFile = function() {
-    return location.href.slice(0, 4) === 'file';
-  };
-
   Presentation.prototype.advanceTo = function(index) {
     this.priorSlide = this.currentSlide;
     this.currentSlide = index || 0;
     this.calculate();
-    if (this.isFile()) {
-      return location.hash = this.currentSlide;
-    } else {
-      return history.pushState({
-        index: this.currentSlide
-      }, '', this.currentSlide);
-    }
+    return location.hash = this.currentSlide;
   };
 
   Presentation.prototype.calculate = function() {
