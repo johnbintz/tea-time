@@ -23,7 +23,8 @@ Attentive.Presentation = (function() {
     this.advanceTo = __bind(this.advanceTo, this);
     this.advance = __bind(this.advance, this);
     this.handleKeyDown = __bind(this.handleKeyDown, this);
-    this.handleClick = __bind(this.handleClick, this);
+    this.handleMouseUp = __bind(this.handleMouseUp, this);
+    this.handleMouseDown = __bind(this.handleMouseDown, this);
     this.handlePopState = __bind(this.handlePopState, this);
     this.length = this.allSlides().length;
     this.priorSlide = null;
@@ -50,8 +51,9 @@ Attentive.Presentation = (function() {
     var imageWait,
       _this = this;
     this.timer.render();
-    document.addEventListener('click', this.handleClick, false);
     document.addEventListener('keydown', this.handleKeyDown, false);
+    document.addEventListener('mousedown', this.handleMouseDown, false);
+    document.addEventListener('mouseup', this.handleMouseUp, false);
     window.addEventListener('resize', _.throttle(this.calculate, 500), false);
     imageWait = null;
     imageWait = function() {
@@ -83,8 +85,22 @@ Attentive.Presentation = (function() {
     return this.advanceTo(this.slideFromLocation());
   };
 
-  Presentation.prototype.handleClick = function(e) {
-    if (e.target.tagName !== 'A') return this.advance();
+  Presentation.prototype.handleMouseDown = function(e) {
+    return this.startSwipeX = e.x;
+  };
+
+  Presentation.prototype.handleMouseUp = function(e) {
+    var distance;
+    distance = this.startSwipeX - e.x;
+    if (Math.abs(distance) > 10) {
+      if (distance < 0) {
+        return this.advance(-1);
+      } else {
+        return this.advance(1);
+      }
+    } else {
+      if (e.target.tagName !== 'A') return this.advance();
+    }
   };
 
   Presentation.prototype.handleKeyDown = function(e) {
