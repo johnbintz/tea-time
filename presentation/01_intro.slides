@@ -20,10 +20,8 @@
 !SLIDE
 # Fortunately, we're beyond that nowadays
 
-!SLIDE larger
+!SLIDE even-larger
 ``` ruby
-require 'spec_helper'
-
 describe MyCoolWebsite do
   let(:website) { described_class.new }
 
@@ -34,7 +32,8 @@ describe MyCoolWebsite do
     let(:double_cool) { 'double cool' }
 
     before do
-      website.stubs(:whoa_cool).returns(oh_yeah)
+      website.stubs(:whoa_cool).
+        returns(oh_yeah)
     end
 
     it { should == double_cool }
@@ -52,31 +51,38 @@ end
    onmouseout="this.src='normal.gif'" />
 ```
 
-!SLIDE
-``` html
-<script type="text/javascript">
+!SLIDE even-larger
+``` javascript
 function showMyCoolTitle(title, length) {
   if (length == null) { length = 0; }
 
   if (length <= title.length) {
-    document.title = title.substr(0, length);
+    document.title =
+      title.substr(0, length);
+
     length++;
 
-    setTimeout(function() { showMyCoolTitle(title, length); }, 75);
+    setTimeout(function() {
+      showMyCoolTitle(title, length);
+    }, 75);
   }
 }
+```
 
+!SLIDE even-larger
+``` javascript
 window.onload = function() {
-  showMyCoolTitle("My cool website! Whoaaaaa!");
+  showMyCoolTitle(
+    "My cool website! Whoaaaaa!"
+  );
 }
-</script>
 ```
 
 !SLIDE
 # jQuery
 
 !SLIDE
-# Backbone
+# Backbone.js
 
 !SLIDE
 # Sprockets and RequireJS
@@ -84,10 +90,8 @@ window.onload = function() {
 !SLIDE
 # Automated testing is important
 
-!SLIDE larger
+!SLIDE even-larger
 ``` ruby
-require 'spec_helper'
-
 describe MyCoolWebsite do
   let(:website) { described_class.new }
 
@@ -98,7 +102,8 @@ describe MyCoolWebsite do
     let(:double_cool) { 'double cool' }
 
     before do
-      website.stubs(:whoa_cool).returns(oh_yeah)
+      website.stubs(:whoa_cool).
+        returns(oh_yeah)
     end
 
     it { should == double_cool }
@@ -106,23 +111,22 @@ describe MyCoolWebsite do
 end
 ```
 
-!SLIDE larger
+!SLIDE even-larger
 ``` coffeescript
 describe 'MyCoolWebsiteView', ->
-  website = null
-
   beforeEach ->
-    website = new MyCoolWebsiteView()
+    @website = new MyCoolWebsiteView()
 
   describe '#coolMethod', ->
     doubleCool = 'double cool'
     ohYeah = [ doubleCool ]
 
     beforeEach ->
-      website.whoaCool = -> ohYeah
+      @website.whoaCool = -> ohYeah
 
     it 'should be double cool', ->
-      expect(website.coolMethod()).toEqual(doubleCool)
+      expect(@website.coolMethod()).
+        toEqual(doubleCool)
 ```
 
 !SLIDE

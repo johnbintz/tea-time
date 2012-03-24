@@ -29,7 +29,7 @@ describe 'Cat', ->
 ``` coffeescript
 # code-under-test
 
-class this.Cat
+class @Cat
   meow: ->
 ```
 
@@ -37,7 +37,6 @@ class this.Cat
 ``` javascript
 // safety wrapper to prevent global pollution
 (function() {
-  // ...but we want to pollute the Cat class
   this.Cat = (function() {
     function Cat() {}
     Cat.prototype.meow = function() {};
@@ -61,7 +60,7 @@ Expected undefined to equal 'meow'.
 
 !SLIDE even-larger
 ``` coffeescript
-class this.Cat
+class @Cat
   meow: -> "meow"
 ```
 
@@ -87,6 +86,6 @@ describe 'Cat', ->
 ``` coffeescript
 # code-under-test
 
-class this.Cat
+class @Cat
   meow: -> "meow"
 ```

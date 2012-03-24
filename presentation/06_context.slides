@@ -15,7 +15,7 @@ describe 'Cat', ->
 !SLIDE
 # This works, but it can be clearer
 
-!SLIDE
+!SLIDE even-larger
 ``` ruby
 describe Cat do
   describe '#meow' do
@@ -41,12 +41,13 @@ end
 alias :context :describe
 ```
 
-!SLIDE larger
+!SLIDE even-larger
 ``` ruby
 describe Cat do
   let(:cat) { described_class.new }
 
-  # save describe for things or behaviors...
+  # save describe for
+  # things or behaviors...
   describe '#meow' do
     subject { cat.meow }
 
@@ -110,7 +111,7 @@ describe 'Cat', ->
 
 !SLIDE even-larger
 ``` coffeescript
-class this.Cat
+class @Cat
   @HUNGRY = 'hungry'
   @VET_PSYCHIC = 'vet psychic'
 

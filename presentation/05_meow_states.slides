@@ -10,7 +10,7 @@
 !SLIDE
 # Nested `describe`
 
-!SLIDE larger
+!SLIDE even-larger
 ``` coffeescript
 describe 'Cat', ->
   describe '#meow', ->
@@ -23,25 +23,26 @@ describe 'Cat', ->
       # the cat knows it's vet time
 ```
 
-!SLIDE larger
+!SLIDE even-larger
 ``` coffeescript
-describe 'Cat', ->
-  describe '#meow', ->
-    describe 'hungry', ->
-      it 'should be a mournful meow', ->
-        cat = new Cat()
-        cat.state = -> Cat.HUNGRY
-          # ...just like cat.stubs(:state)
+describe 'hungry', ->
+  it 'should be a mournful meow', ->
+    cat = new Cat()
+    cat.state = -> Cat.HUNGRY
+      # ...just like cat.stubs(:state)
 
-        expect(cat.meow()).toEqual("meeeyaow")
+    expect(cat.meow()).toEqual("meeeyaow")
+```
 
-    describe 'going to the vet', ->
-      it 'should be an evil meow', ->
-        cat = new Cat()
-        cat.state = -> Cat.VET_PSYCHIC
-          # ...just like the one above
+!SLIDE even-larger
+``` coffeescript
+describe 'going to the vet', ->
+  it 'should be an evil meow', ->
+    cat = new Cat()
+    cat.state = -> Cat.VET_PSYCHIC
+      # ...just like the one above
 
-        expect(cat.meow()).toEqual("raowwww")
+    expect(cat.meow()).toEqual("raowwww")
 ```
 
 !SLIDE image-80-percent
@@ -95,23 +96,29 @@ it "should be in the same context", ->
   expect(@instanceVariable).toEqual("yes")
 ```
 
-!SLIDE larger
+!SLIDE even-larger
 ``` coffeescript
 describe 'Cat', ->
   describe '#meow', ->
     beforeEach ->
       @cat = new Cat()
+```
 
-    describe 'hungry', ->
-      it 'should be a mournful meow', ->
-        @cat.state = -> Cat.HUNGRY
+!SLIDE even-larger
+``` coffeescript
+describe 'hungry', ->
+  it 'should be a mournful meow', ->
+    @cat.state = -> Cat.HUNGRY
 
-        expect(@cat.meow()).toEqual("meeeyaow")
+    expect(@cat.meow()).toEqual("meeeyaow")
+```
 
-    describe 'going to the vet', ->
-      it 'should be an evil meow', ->
-        @cat.state = -> Cat.VET_PSYCHIC
+!SLIDE even-larger
+``` coffeescript
+describe 'going to the vet', ->
+  it 'should be an evil meow', ->
+    @cat.state = -> Cat.VET_PSYCHIC
 
-        expect(@cat.meow()).toEqual("raowwww")
+    expect(@cat.meow()).toEqual("raowwww")
 ```
 

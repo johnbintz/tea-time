@@ -22,16 +22,17 @@ describe 'Cat', ->
 !SLIDE image-80-percent
 <img src="assets/cat-meow.jpg" />
 
-!SLIDE larger
+!SLIDE even-larger
 ``` coffeescript
 describe 'Cat', ->
   describe '#meow', ->
-    # description of the meow behavior goes here
+    # description of the
+    # meow behavior goes here
 ```
 
-!SLIDE
+!SLIDE larger
 # John behavior #1
-## Use Ruby-style indicators for instance- and class-level methods, even in Jasmine
+## Use Ruby-style indicators for instance- and class-level methods
 
 ``` coffeescript
 describe 'John', ->

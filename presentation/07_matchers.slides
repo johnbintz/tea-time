@@ -12,7 +12,7 @@ cat.should_not be_hungry
 !SLIDE even-larger
 ``` coffeescript
 expect(cat.meow()).toEqual("meow")
-expect(cat.prototype).toEqual(Cat.prototype)
+expect(cat.constructor).toEqual(Cat)
 expect(cat.isHungry()).not.toBeTruthy()
 ```
 
@@ -46,7 +46,10 @@ MyMatchers =
 
 beforeEach ->
   this.addMatchers(MyMatchers)
+```
 
+!SLIDE even-larger
+``` coffeescript
 describe 'Cat', ->
   beforeEach ->
     @cat = new Cat()

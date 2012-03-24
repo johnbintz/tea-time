@@ -36,19 +36,19 @@ describe 'John', ->
 !SLIDE image-80-percent
 <img src="assets/beer-cat.jpg" />
 
-!SLIDE larger
+!SLIDE even-larger
 ``` gherkin
 Feature: Cat Behaviors
-  Scenario: Hungry cats meow a particular way
+  Scenario: Hungry cats meow a certain way
     Given I have a cat
       And the cat is hungry
     When the cat meows
-    Then the meow should sound like "meeyaow"
+    Then the meow should be a "meeyaow"
 ```
 
 !SLIDE even-larger
 ``` coffeescript
-class this.Cat
+class @Cat
   @FOOD_THRESHOLD = 20
   @HUNGRY = 'hungry'
 
@@ -64,7 +64,7 @@ class this.Cat
       Cat.HUNGRY
 ```
 
-!SLIDE larger
+!SLIDE even-larger
 ``` coffeescript
 describe 'Cat', ->
   describe '#meow', ->
@@ -73,17 +73,19 @@ describe 'Cat', ->
         cat = new Cat()
         cat.foodLevel = 15
 
-        expect(cat.meow()).toEqual("meeeyaow")
+        expect(cat.meow()).
+          toEqual("meeeyaow")
 ```
 
 !SLIDE
 # A perfectly cromulent test
 
-!SLIDE larger
+!SLIDE even-larger
 ``` coffeescript
-class this.Cat
+class @Cat
   meow: ->
-    switch this.state() # <= dependent code executed
+    switch this.state()
+         # ^^^ dependent code executed
       when Cat.HUNGRY
         "meeyaow"
 ```
@@ -91,25 +93,24 @@ class this.Cat
 !SLIDE
 # Why make your unit tests fragile?
 
-!SLIDE larger
+!SLIDE even-larger
 ``` coffeescript
 cat.foodLevel = 15
-  # do we care about food level in this test?
-    # all we care about is that the cat is hungry
+  # do we care about food level?
 ```
 
-!SLIDE larger
+!SLIDE even-larger
 ``` coffeescript
 describe 'Cat', ->
   describe '#meow', ->
-    describe 'hungry', ->
+    context 'hungry', ->
       it 'should be a mournful meow', ->
         cat = new Cat()
         cat.state = -> Cat.HUNGRY
-          # ^^^ we don't care how state works,
-            # we just want a hungry cat
+          # ^^^ we just want a hungry cat
 
-        expect(cat.meow()).toEqual("meeeyaow")
+        expect(cat.meow()).
+          toEqual("meeeyaow")
 ```
 
 !SLIDE
@@ -117,7 +118,7 @@ describe 'Cat', ->
 ## Just replace the method on the instance
 
 ``` coffeescript
-class this.Cat
+class @Cat
   state: ->
     # cat codes
 
@@ -148,7 +149,7 @@ cat.state = -> "whatever"
 
 !SLIDE even-larger
 ``` coffeescript
-class this.Cat
+class @Cat
   vocalProcessor: (speech) =>
     if this.isAirborne()
       this.modifyForAirborne(speech)
@@ -156,7 +157,7 @@ class this.Cat
       this.modifyForGround(speech)
 ```
 
-!SLIDE
+!SLIDE larger
 ``` coffeescript
 describe 'Cat#vocalProcessor', ->
   speech = "speech"
@@ -171,7 +172,8 @@ describe 'Cat#vocalProcessor', ->
 
     it 'should be modified for flight', ->
       @cat.vocalProcessor(speech)
-      expect(@cat.modifyForAirborne).toHaveBeenCalledWith(speech)
+      expect(@cat.modifyForAirborne).
+        toHaveBeenCalledWith(speech)
 ```
 
 !SLIDE even-larger
@@ -187,48 +189,53 @@ spyOn(@cat, 'modifyForAirborne')
 !SLIDE
 # Two basic ways to make sure a spy is called
 
-!SLIDE
+!SLIDE even-larger
 ## `toHaveBeenCalledWith(args...)`
 ### Called least once with the given parameters
 
 ``` coffeescript
-expect(@cat.modifyForAirborne).toHaveBeenCalledWith(speech)
+expect(@cat.modifyForAirborne).
+  toHaveBeenCalledWith(speech)
 ```
 
-!SLIDE
+!SLIDE even-larger
 ## `toHaveBeenCalled()`
 ### Just called, no parameter check
 
 ``` coffeescript
-expect(@cat.modifyForAirborne).toHaveBeenCalled()
+expect(@cat.modifyForAirborne).
+  toHaveBeenCalled()
 ```
 
-!SLIDE larger
+!SLIDE even-larger
 # Instance Mocks/Spies in JavaScript
 ## Use `spyOn`/`toHaveBeenCalled` matchers
 
 ``` coffeescript
-class this.Cat
+class @Cat
   state: ->
     # cat codes
 
 cat = new Cat()
 spyOn(cat, 'state')
-expect(cat.state).toHaveBeenCalled()
+expect(cat.state).
+  toHaveBeenCalled()
 ```
 
 !SLIDE
 # `spyOn` works great with class-level stubs and mocks, too
 
-!SLIDE
+!SLIDE larger
 ``` coffeescript
-class this.Cat
+class @Cat
   @generateFurColor: (base) ->
     # magicks to make a fur color given a base
 
   regrowFur: (damagedHairs) ->
     for follicle in damagedHairs
-      follicle.regrow(Cat.generateFurColor(this.baseColor))
+      follicle.regrow(
+        Cat.generateFurColor(this.baseColor)
+      )
 ```
 
 !SLIDE larger
@@ -237,26 +244,26 @@ Cat.generateFurColor = ->
   "whoops i nuked this method for every other test"
 ```
 
-!SLIDE
+!SLIDE larger
 ``` coffeescript
 describe 'Cat#regrowFur', ->
   color = 'color'
 
   beforeEach ->
     @cat = new Cat()
-    @follicle =
-      regrow: ->
-
+    @follicle = { regrow: -> null }
     @follicles = [ follicle ]
 
-    spyOn(Cat, 'generateFurColor').andReturn(color)
-    #           ^^^ original is replaced when done
+    spyOn(Cat, 'generateFurColor').
+    #           ^^^ original replaced when done
+      andReturn(color)
     spyOn(@follicle, 'regrow')
 
   it 'should regrow', ->
     @cat.regrowFur(@follicles)
 
-    expect(@follicle.regrow).toHaveBeenCalledWith(color)
+    expect(@follicle.regrow).
+      toHaveBeenCalledWith(color)
 ```
 
 !SLIDE larger
@@ -329,7 +336,7 @@ describe 'Cat#fetch', ->
 !SLIDE
 # Sometimes you just need a big blob of unit tests
 
-!SLIDE
+!SLIDE larger
 ``` coffeescript
 # fast and focused!
 
@@ -339,8 +346,11 @@ describe 'Cat#respondsTo', ->
 
   context 'successes', ->
     it 'should respond', ->
-      for request in [ 'kitty kitty', 'pookums', 'hisshead' ]
-        expect(@cat.respondsTo(request)).toBeTruthy()
+      for request in [ 'kitty kitty',
+                       'pookums',
+                       'hisshead' ]
+        expect(@cat.respondsTo(request)).
+          toBeTruthy()
 ```
 
 !SLIDE larger
